@@ -1,0 +1,465 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Spatial.gd" type="Script" id=1]
+[ext_resource path="res://CSGMesh.tscn" type="PackedScene" id=2]
+[ext_resource path="res://CameraGimbal.gd" type="Script" id=3]
+
+[sub_resource type="Environment" id=1]
+background_mode = 1
+background_color = Color( 0.333333, 0.333333, 0.333333, 1 )
+
+[node name="Spatial" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 1 )
+
+[node name="CameraGimbal" type="Spatial" parent="."]
+script = ExtResource( 3 )
+target = NodePath("../Meshes")
+
+[node name="InnerGimbal" type="Spatial" parent="CameraGimbal"]
+
+[node name="Camera" type="Camera" parent="CameraGimbal/InnerGimbal"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 10 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="CameraGimbal/InnerGimbal"]
+transform = Transform( 1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 10.3765, 44.477 )
+
+[node name="Mesh" type="Spatial" parent="."]
+visible = false
+
+[node name="CSGMesh" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0 )
+
+[node name="CSGMesh2" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0 )
+
+[node name="CSGMesh3" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0 )
+
+[node name="CSGMesh4" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0 )
+
+[node name="CSGMesh5" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1, 0 )
+
+[node name="CSGMesh6" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1, 0 )
+
+[node name="CSGMesh7" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1, 0 )
+
+[node name="CSGMesh8" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 1, 0 )
+
+[node name="CSGMesh9" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1, 0 )
+
+[node name="CSGMesh10" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 1, 0 )
+
+[node name="CSGMesh11" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1, 0 )
+
+[node name="CSGMesh12" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1, 0 )
+
+[node name="CSGMesh13" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1, 0 )
+
+[node name="CSGMesh14" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1, 0 )
+
+[node name="CSGMesh15" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, 0 )
+
+[node name="CSGMesh16" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1, 0 )
+
+[node name="CSGMesh17" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
+
+[node name="CSGMesh18" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -1, 0 )
+
+[node name="CSGMesh19" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -2, 0 )
+
+[node name="CSGMesh20" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -3, 0 )
+
+[node name="CSGMesh21" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -4, 0 )
+
+[node name="CSGMesh22" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -5, 0 )
+
+[node name="CSGMesh23" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -6, 0 )
+
+[node name="CSGMesh24" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, -7, 0 )
+
+[node name="CSGMesh25" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
+
+[node name="CSGMesh26" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -1, 0 )
+
+[node name="CSGMesh27" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -2, 0 )
+
+[node name="CSGMesh28" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -3, 0 )
+
+[node name="CSGMesh29" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -4, 0 )
+
+[node name="CSGMesh30" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -5, 0 )
+
+[node name="CSGMesh31" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -6, 0 )
+
+[node name="CSGMesh32" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, -7, 0 )
+
+[node name="CSGMesh33" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0 )
+
+[node name="CSGMesh34" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -1, 0 )
+
+[node name="CSGMesh35" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -2, 0 )
+
+[node name="CSGMesh36" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -3, 0 )
+
+[node name="CSGMesh37" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -4, 0 )
+
+[node name="CSGMesh38" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -5, 0 )
+
+[node name="CSGMesh39" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -6, 0 )
+
+[node name="CSGMesh40" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -7, 0 )
+
+[node name="CSGMesh41" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0 )
+
+[node name="CSGMesh42" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -1, 0 )
+
+[node name="CSGMesh43" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -2, 0 )
+
+[node name="CSGMesh44" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -3, 0 )
+
+[node name="CSGMesh45" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -4, 0 )
+
+[node name="CSGMesh46" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -5, 0 )
+
+[node name="CSGMesh47" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -6, 0 )
+
+[node name="CSGMesh48" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -7, 0 )
+
+[node name="CSGMesh49" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0 )
+
+[node name="CSGMesh50" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -1, 0 )
+
+[node name="CSGMesh51" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -2, 0 )
+
+[node name="CSGMesh52" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -3, 0 )
+
+[node name="CSGMesh53" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -4, 0 )
+
+[node name="CSGMesh54" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -5, 0 )
+
+[node name="CSGMesh55" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -6, 0 )
+
+[node name="CSGMesh56" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -7, 0 )
+
+[node name="CSGMesh57" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0 )
+
+[node name="CSGMesh58" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -1, 0 )
+
+[node name="CSGMesh59" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -2, 0 )
+
+[node name="CSGMesh60" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -3, 0 )
+
+[node name="CSGMesh61" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -4, 0 )
+
+[node name="CSGMesh62" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -5, 0 )
+
+[node name="CSGMesh63" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -6, 0 )
+
+[node name="CSGMesh64" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, -7, 0 )
+
+[node name="CSGMesh65" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 0 )
+
+[node name="CSGMesh66" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -1, 0 )
+
+[node name="CSGMesh67" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -2, 0 )
+
+[node name="CSGMesh68" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -3, 0 )
+
+[node name="CSGMesh69" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -4, 0 )
+
+[node name="CSGMesh70" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -5, 0 )
+
+[node name="CSGMesh71" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -6, 0 )
+
+[node name="CSGMesh72" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7, -7, 0 )
+
+[node name="CSGMesh73" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0 )
+
+[node name="CSGMesh74" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -1, 0 )
+
+[node name="CSGMesh75" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -2, 0 )
+
+[node name="CSGMesh76" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -3, 0 )
+
+[node name="CSGMesh77" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -4, 0 )
+
+[node name="CSGMesh78" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -5, 0 )
+
+[node name="CSGMesh79" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -6, 0 )
+
+[node name="CSGMesh80" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -7, 0 )
+
+[node name="CSGMesh81" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 0 )
+
+[node name="CSGMesh82" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -1, 0 )
+
+[node name="CSGMesh83" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -2, 0 )
+
+[node name="CSGMesh84" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -3, 0 )
+
+[node name="CSGMesh85" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -4, 0 )
+
+[node name="CSGMesh86" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -5, 0 )
+
+[node name="CSGMesh87" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -6, 0 )
+
+[node name="CSGMesh88" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -7, 0 )
+
+[node name="CSGMesh89" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0 )
+
+[node name="CSGMesh90" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -1, 0 )
+
+[node name="CSGMesh91" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -2, 0 )
+
+[node name="CSGMesh92" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -3, 0 )
+
+[node name="CSGMesh93" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -4, 0 )
+
+[node name="CSGMesh94" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -5, 0 )
+
+[node name="CSGMesh95" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -6, 0 )
+
+[node name="CSGMesh96" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, -7, 0 )
+
+[node name="CSGMesh97" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, 0 )
+
+[node name="CSGMesh98" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -1, 0 )
+
+[node name="CSGMesh99" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -2, 0 )
+
+[node name="CSGMesh100" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -3, 0 )
+
+[node name="CSGMesh101" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -4, 0 )
+
+[node name="CSGMesh102" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -5, 0 )
+
+[node name="CSGMesh103" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -6, 0 )
+
+[node name="CSGMesh104" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -7, 0 )
+
+[node name="CSGMesh105" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 0 )
+
+[node name="CSGMesh106" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -1, 0 )
+
+[node name="CSGMesh107" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -2, 0 )
+
+[node name="CSGMesh108" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -3, 0 )
+
+[node name="CSGMesh109" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -4, 0 )
+
+[node name="CSGMesh110" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -5, 0 )
+
+[node name="CSGMesh111" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -6, 0 )
+
+[node name="CSGMesh112" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, -7, 0 )
+
+[node name="CSGMesh113" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 0 )
+
+[node name="CSGMesh114" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -1, 0 )
+
+[node name="CSGMesh115" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -2, 0 )
+
+[node name="CSGMesh116" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -3, 0 )
+
+[node name="CSGMesh117" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -4, 0 )
+
+[node name="CSGMesh118" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -5, 0 )
+
+[node name="CSGMesh119" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -6, 0 )
+
+[node name="CSGMesh120" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, -7, 0 )
+
+[node name="CSGMesh121" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0 )
+
+[node name="CSGMesh122" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -1, 0 )
+
+[node name="CSGMesh123" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -2, 0 )
+
+[node name="CSGMesh124" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -3, 0 )
+
+[node name="CSGMesh125" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -4, 0 )
+
+[node name="CSGMesh126" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -5, 0 )
+
+[node name="CSGMesh127" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -6, 0 )
+
+[node name="CSGMesh128" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, -7, 0 )
+
+[node name="CSGMesh129" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 0 )
+
+[node name="CSGMesh130" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -1, 0 )
+
+[node name="CSGMesh131" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -2, 0 )
+
+[node name="CSGMesh132" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -3, 0 )
+
+[node name="CSGMesh133" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -4, 0 )
+
+[node name="CSGMesh134" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -5, 0 )
+
+[node name="CSGMesh135" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -6, 0 )
+
+[node name="CSGMesh136" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 15, -7, 0 )
+
+[node name="CSGMesh137" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 0 )
+
+[node name="CSGMesh138" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -1, 0 )
+
+[node name="CSGMesh139" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -2, 0 )
+
+[node name="CSGMesh140" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -3, 0 )
+
+[node name="CSGMesh141" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -4, 0 )
+
+[node name="CSGMesh142" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -5, 0 )
+
+[node name="CSGMesh143" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -6, 0 )
+
+[node name="CSGMesh144" parent="Mesh" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, -7, 0 )
+
+[node name="Meshes" type="Spatial" parent="."]
+transform = Transform( 1, -1.50996e-07, 1.50996e-07, -1.50996e-07, -1, -7.64274e-15, 1.50996e-07, -1.5157e-14, -1, 0, 0, 0 )
