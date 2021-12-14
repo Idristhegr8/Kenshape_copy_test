@@ -34,11 +34,26 @@ func add_b(x: int, y: int, color: Color, depth: int) -> void:
 	$Meshes.add_child(node)
 
 	if depth > 1:
-		for num in depth-1:
-			var d_node: CSGMesh = load("res://CSGMesh.tscn").instance()
-			d_node.translation = Vector3(node.translation.x, node.translation.y, num + 1)
-			var d_material: SpatialMaterial = SpatialMaterial.new()
-			d_node.set_material_override(material)
-			$Meshes.add_child(d_node)
+# warning-ignore:integer_division
+		if not depth %2:
+			for num in depth-1:
+				var d_node: CSGMesh = load("res://CSGMesh.tscn").instance()
+				d_node.translation = Vector3(node.translation.x, node.translation.y, num + 1)
+				d_node.set_material_override(material)
+				$Meshes.add_child(d_node)
+		else:
+# warning-ignore:integer_division
+			var n_depth: int = (depth-1)/2
+			print(str(depth%2))
+			for num in n_depth:
+				var d_node: CSGMesh = load("res://CSGMesh.tscn").instance()
+				d_node.translation = Vector3(node.translation.x, node.translation.y, num + 1)
+				d_node.set_material_override(material)
+				$Meshes.add_child(d_node)
+			for num in n_depth:
+				var d_node: CSGMesh = load("res://CSGMesh.tscn").instance()
+				d_node.translation = Vector3(node.translation.x, node.translation.y, -(num + 1))
+				d_node.set_material_override(material)
+				$Meshes.add_child(d_node)
 
 

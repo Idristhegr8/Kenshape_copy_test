@@ -26,6 +26,7 @@ func _process(delta: float) -> void:
 			pixel_dat.depth = pixel.depth
 			Global.pixels.append(pixel_dat)
 
+# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://Spatial.tscn")
 	if Input.is_action_just_pressed("E"):
 		state = eraser
