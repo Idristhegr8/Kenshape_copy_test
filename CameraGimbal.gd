@@ -20,8 +20,8 @@ export (float, 0.05, 1.0) var zoom_speed = 0.09
 var zoom = 1.5
 
 func _unhandled_input(event):
-	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
-		return
+#	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
+#		return
 	if event.is_action_pressed("cam_zoom_in"):
 		zoom -= zoom_speed
 	if event.is_action_pressed("cam_zoom_out"):

@@ -28,6 +28,11 @@ config/icon="res://icon.png"
 
 Global="*res://Global.gd"
 
+[display]
+
+window/size/width=640
+window/size/height=640
+
 [input]
 
 cam_right={

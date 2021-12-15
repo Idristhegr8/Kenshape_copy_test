@@ -25,7 +25,6 @@ shape = SubResource( 1 )
 position = Vector2( 32, 32 )
 anchor_mode = 0
 current = true
-zoom = Vector2( 1, 0.96 )
 
 [node name="UI" type="Control" parent="."]
 pause_mode = 2
@@ -33,9 +32,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 32.0
 margin_top = 32.0
-margin_right = 1056.0
-margin_bottom = 608.0
-rect_min_size = Vector2( 1024, 0 )
+margin_right = 672.0
+margin_bottom = 672.0
 mouse_filter = 2
 script = ExtResource( 3 )
 __meta__ = {

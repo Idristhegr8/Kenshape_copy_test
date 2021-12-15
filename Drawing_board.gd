@@ -10,6 +10,19 @@ var state = pencil
 var grid_pos: Vector2
 var can_draw: bool = true setget set_draw
 
+func _ready() -> void:
+	if Global.drawing_board.y - 10 != 0:
+		var extra_y: int = Global.drawing_board.y-10
+		for y in extra_y:
+			$UI.rect_size.y += 64
+			$Camera2D.zoom.y += 0.1
+
+	if Global.drawing_board.x - 10 != 0:
+		var extra_x: int = Global.drawing_board.x-10
+		for x in extra_x:
+			$UI.rect_size.x += 64
+			$Camera2D.zoom.x += 0.1
+
 # warning-ignore:unused_argument
 func _process(delta: float) -> void:
 	var mouse_pos: Vector2 = get_global_mouse_position()

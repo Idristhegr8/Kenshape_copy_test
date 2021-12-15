@@ -7,7 +7,7 @@ func _ready() -> void:
 #		if x_pixels.has(pixel.x/64):
 #			add_b(-pixel.x, pixel.y)
 #		else:
-			add_b((pixel.x/64-9)*64, pixel.y, pixel.color, pixel.depth)
+			add_b((pixel.x/64-((Global.drawing_board.x/2)+1))*64, (pixel.y/64-((Global.drawing_board.y/2)-1))*64, pixel.color, pixel.depth)
 
 #		#symetry
 #		add_b(-pixel.x, pixel.y)
