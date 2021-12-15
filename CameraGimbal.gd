@@ -22,11 +22,6 @@ var zoom = 1.5
 func _unhandled_input(event):
 #	if Input.get_mouse_mode() != Input.MOUSE_MODE_CAPTURED:
 #		return
-	if event.is_action_pressed("cam_zoom_in"):
-		zoom -= zoom_speed
-	if event.is_action_pressed("cam_zoom_out"):
-		zoom += zoom_speed
-	zoom = clamp(zoom, min_zoom, max_zoom)
 	if mouse_control and event is InputEventMouseMotion:
 		if event.relative.x != 0:
 			var dir = 1 if invert_x else -1
@@ -54,6 +49,18 @@ func get_input_keyboard(delta):
 		x_rotation += 1
 	x_rotation = -x_rotation if invert_y else x_rotation
 	$InnerGimbal.rotate_object_local(Vector3.RIGHT, x_rotation * rotation_speed * delta)
+
+	if Input.is_action_pressed("cam_zoom_in"):
+		zoom -= zoom_speed
+	if Input.is_action_pressed("cam_zoom_out"):
+		zoom += zoom_speed
+	zoom = clamp(zoom, min_zoom, max_zoom)
+
+	if Input.is_action_pressed("Q"):
+		$InnerGimbal/Camera.translation.y += 0.1
+
+	if Input.is_action_pressed("A"):
+		$InnerGimbal/Camera.translation.y -= 0.1
 
 func _process(delta):
 	if !mouse_control:

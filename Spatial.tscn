@@ -17,6 +17,7 @@ environment = SubResource( 1 )
 [node name="CameraGimbal" type="Spatial" parent="."]
 script = ExtResource( 3 )
 target = NodePath("../Meshes")
+max_zoom = 10.0
 
 [node name="InnerGimbal" type="Spatial" parent="CameraGimbal"]
 
