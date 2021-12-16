@@ -4,7 +4,7 @@ var _Color: Color = Color("ffffff")
 
 # warning-ignore:unused_argument
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("C"):
+	if Input.is_action_just_pressed("C") and not get_parent().is_saving:
 		if $ColorPicker.visible:
 			$ColorPicker.hide()
 			get_tree().paused = false
@@ -15,7 +15,7 @@ func _process(delta: float) -> void:
 			$ColorPicker.show()
 			get_tree().paused = true
 
-	if Input.is_action_just_pressed("D"):
+	if Input.is_action_just_pressed("D") and not get_parent().is_saving:
 		if get_tree().paused:
 			get_tree().paused = false
 			get_parent().get_node("Pixel").show()
@@ -25,15 +25,17 @@ func _process(delta: float) -> void:
 
 	if Input.is_action_pressed("Command") and Input.is_action_just_pressed("S"):
 		if get_tree().paused:
+			get_parent().is_saving = false
 			get_tree().paused = false
 			get_parent().get_node("Pixel").show()
 		else:
+			get_parent().is_saving = true
 			$FileDialog.mode = FileDialog.MODE_SAVE_FILE
 			$FileDialog.popup_centered()
 			get_tree().paused = true
 			get_parent().get_node("Pixel").hide()
 
-	if Input.is_action_pressed("Command") and Input.is_action_just_pressed("L"):
+	if Input.is_action_pressed("Command") and Input.is_action_just_pressed("L") and not get_parent().is_saving:
 		if get_tree().paused:
 			get_tree().paused = false
 			get_parent().get_node("Pixel").show()
@@ -98,8 +100,16 @@ func _on_FileDialog_confirmed() -> void:
 		Save()
 	else:
 		Load()
+	get_parent().is_saving = false
+	get_tree().paused = false
+	get_parent().get_node("Pixel").show()
 
 func Save() -> void:
+
+	var settings: Dictionary = {
+		x = Global.drawing_board.x,
+		y = Global.drawing_board.y
+	}
 
 	var data: Array = []
 
@@ -117,22 +127,38 @@ func Save() -> void:
 		data.append(pixel_dat)
 
 	var file: File = File.new()
-	if file.file_exists($FileDialog.current_path):
-		pass
-	else:
-		file.open($FileDialog.current_path, File.WRITE)
-		file.store_line(to_json(data))
-		file.close()
+	file.open($FileDialog.current_path + ".pt3d", File.WRITE)
+	file.store_line(to_json(data))
+	file.close()
+	file.open($FileDialog.current_path + "_settings.pt3d", File.WRITE)
+	file.store_line(to_json(settings))
+	file.close()
 
 func Load() -> void:
 
-	var data: Array = []
+	for pixel in get_parent().get_node("Pixels").get_children():
+		pixel.queue_free()
+
+	var settings: Dictionary = {}
+
+	var data: Array
 
 	var file: File = File.new()
-	if file.file_exists($FileDialog.current_path):
+	if $FileDialog.current_path.ends_with(".pt3d") and file.file_exists($FileDialog.current_path):
 		file.open($FileDialog.current_path, File.READ)
 		data = parse_json(file.get_line())
 		file.close()
+
+	var settings_file: File = File.new()
+	var path: String = $FileDialog.current_path.trim_suffix(".pt3d") + "_settings.pt3d"
+	if $FileDialog.current_path.ends_with(".pt3d") and settings_file.file_exists(path):
+		settings_file.open(path, File.READ)
+		settings = parse_json(settings_file.get_line())
+		settings_file.close()
+#	print(str(canvas_data))
+
+	Global.drawing_board.x = settings.x
+	Global.drawing_board.y = settings.y
 
 	for pixel in data:
 		var node: Sprite = load("res://Pixel.tscn").instance()
@@ -141,11 +167,26 @@ func Load() -> void:
 		node.depth = pixel[3]
 		get_parent().get_node("Pixels").add_child(node)
 
-	print(str(data))
+	if Global.drawing_board.y - 10 != 0:
+# warning-ignore:narrowing_conversion
+		var extra_y: int = Global.drawing_board.y-10
+		for y in extra_y:
+			rect_size.y += 64
+			get_parent().get_node("Camera2D").zoom.y += 0.1
+			$ColorPicker.rect_scale.y += 0.1
+			$FileDialog.rect_scale.y += 0.1
+			$ColorPicker.rect_global_position.y -= 23.1
 
-
-
-
+	if Global.drawing_board.x - 10 != 0:
+		get_parent().get_node("BG").rect_size = Global.drawing_board
+# warning-ignore:narrowing_conversion
+		var extra_x: int = Global.drawing_board.x-10
+		for x in extra_x:
+			rect_size.x += 64
+			get_parent().get_node("Camera2D").zoom.x += 0.1
+			$ColorPicker.rect_scale.x += 0.1
+			$FileDialog.rect_scale.x += 0.1
+			$ColorPicker.rect_global_position.x -= 16.8
 
 
 

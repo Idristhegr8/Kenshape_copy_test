@@ -9,6 +9,7 @@ var state = pencil
 
 var grid_pos: Vector2
 var can_draw: bool = true setget set_draw
+var is_saving: bool = false
 
 func _ready() -> void:
 
@@ -50,7 +51,7 @@ func _process(delta: float) -> void:
 	$Pixel.global_position = mouse_pos.snapped(Vector2(64, 64))
 	grid_pos = mouse_pos.snapped(Vector2(64, 64))
 
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("ui_accept") and not is_saving:
 		Global.pixels.clear()
 		for pixel in get_tree().get_nodes_in_group("Pixel"):
 
@@ -63,9 +64,9 @@ func _process(delta: float) -> void:
 
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://Spatial.tscn")
-	if Input.is_action_just_pressed("E"):
+	if Input.is_action_just_pressed("E") and not is_saving:
 		state = eraser
-	if Input.is_action_just_pressed("P"):
+	if Input.is_action_just_pressed("P") and not is_saving:
 		state = pencil
 
 # warning-ignore:unused_argument
@@ -85,10 +86,11 @@ func add_p() -> void:
 	for pixel in pixels:
 		if pixel.global_position == grid_pos:
 			pixel.queue_free()
-	var node: Sprite = load("res://Pixel.tscn").instance()
-	node.global_position = grid_pos
-	node.modulate = $UI._Color
-	$Pixels.add_child(node)
+	if not grid_pos.x > Global.drawing_board.x*64 and not grid_pos.y > Global.drawing_board.y*64 and not grid_pos.x < 0 and not grid_pos.y < 0:
+		var node: Sprite = load("res://Pixel.tscn").instance()
+		node.global_position = grid_pos
+		node.modulate = $UI._Color
+		$Pixels.add_child(node)
 
 func set_draw(value: bool) -> void:
 	can_draw = value
