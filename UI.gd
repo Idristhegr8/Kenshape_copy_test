@@ -1,5 +1,7 @@
 extends Control
 
+var password: String
+
 var _Color: Color = Color("ffffff")
 
 # warning-ignore:unused_argument
@@ -127,10 +129,10 @@ func Save() -> void:
 		data.append(pixel_dat)
 
 	var file: File = File.new()
-	file.open($FileDialog.current_path + ".pt3d", File.WRITE)
+	file.open_encrypted_with_pass($FileDialog.current_path + ".pt3d", File.WRITE, password)
 	file.store_line(to_json(data))
 	file.close()
-	file.open($FileDialog.current_path + "_settings.pt3d", File.WRITE)
+	file.open_encrypted_with_pass($FileDialog.current_path + "_settings.pt3d", File.WRITE, password)
 	file.store_line(to_json(settings))
 	file.close()
 
@@ -145,14 +147,14 @@ func Load() -> void:
 
 	var file: File = File.new()
 	if $FileDialog.current_path.ends_with(".pt3d") and file.file_exists($FileDialog.current_path):
-		file.open($FileDialog.current_path, File.READ)
+		file.open_encrypted_with_pass($FileDialog.current_path, File.READ, password)
 		data = parse_json(file.get_line())
 		file.close()
 
 	var settings_file: File = File.new()
 	var path: String = $FileDialog.current_path.trim_suffix(".pt3d") + "_settings.pt3d"
 	if $FileDialog.current_path.ends_with(".pt3d") and settings_file.file_exists(path):
-		settings_file.open(path, File.READ)
+		settings_file.open_encrypted_with_pass(path, File.READ, password)
 		settings = parse_json(settings_file.get_line())
 		settings_file.close()
 #	print(str(canvas_data))
