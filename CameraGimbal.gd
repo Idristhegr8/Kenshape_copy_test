@@ -56,11 +56,17 @@ func get_input_keyboard(delta):
 		zoom += zoom_speed
 	zoom = clamp(zoom, min_zoom, max_zoom)
 
-	if Input.is_action_pressed("Q"):
+	if Input.is_action_pressed("W"):
 		$InnerGimbal/Camera.translation.y += 0.1
 
-	if Input.is_action_pressed("A"):
+	if Input.is_action_pressed("S"):
 		$InnerGimbal/Camera.translation.y -= 0.1
+
+	if Input.is_action_pressed("A"):
+		$InnerGimbal/Camera.translation.x -= 0.1
+
+	if Input.is_action_pressed("D"):
+		$InnerGimbal/Camera.translation.x += 0.1
 
 func _process(delta):
 	if !mouse_control:

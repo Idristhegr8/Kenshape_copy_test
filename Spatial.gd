@@ -44,7 +44,6 @@ func add_b(x: int, y: int, color: Color, depth: int) -> void:
 		else:
 # warning-ignore:integer_division
 			var n_depth: int = (depth-1)/2
-			print(str(depth%2))
 			for num in n_depth:
 				var d_node: CSGMesh = load("res://CSGMesh.tscn").instance()
 				d_node.translation = Vector3(node.translation.x, node.translation.y, num + 1)
@@ -56,4 +55,9 @@ func add_b(x: int, y: int, color: Color, depth: int) -> void:
 				d_node.set_material_override(material)
 				$Meshes.add_child(d_node)
 
+# warning-ignore:unused_argument
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("B"):
+# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://Drawing_board.tscn")
 

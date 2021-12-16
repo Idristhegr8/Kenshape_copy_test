@@ -11,17 +11,38 @@ var grid_pos: Vector2
 var can_draw: bool = true setget set_draw
 
 func _ready() -> void:
+
 	if Global.drawing_board.y - 10 != 0:
+# warning-ignore:narrowing_conversion
 		var extra_y: int = Global.drawing_board.y-10
 		for y in extra_y:
 			$UI.rect_size.y += 64
 			$Camera2D.zoom.y += 0.1
+			$UI/ColorPicker.rect_scale.y += 0.1
+			$UI/FileDialog.rect_scale.y += 0.1
+			$UI/ColorPicker.rect_global_position.y -= 23.1
 
 	if Global.drawing_board.x - 10 != 0:
+# warning-ignore:narrowing_conversion
 		var extra_x: int = Global.drawing_board.x-10
 		for x in extra_x:
 			$UI.rect_size.x += 64
 			$Camera2D.zoom.x += 0.1
+			$UI/ColorPicker.rect_scale.x += 0.1
+			$UI/FileDialog.rect_scale.x += 0.1
+			$UI/ColorPicker.rect_global_position.x -= 16.8
+
+	if Global.pixels != []:
+		for pixel in Global.pixels:
+			var node: Sprite = load("res://Pixel.tscn").instance()
+			node.global_position = Vector2(pixel.x, pixel.y)
+			node.modulate = pixel.color
+			node.depth = pixel.depth
+			$Pixels.add_child(node)
+
+	if Global.drawing_board.x > 10:
+		$BG.rect_size = Global.drawing_board
+
 
 # warning-ignore:unused_argument
 func _process(delta: float) -> void:
@@ -30,6 +51,7 @@ func _process(delta: float) -> void:
 	grid_pos = mouse_pos.snapped(Vector2(64, 64))
 
 	if Input.is_action_just_pressed("ui_accept"):
+		Global.pixels.clear()
 		for pixel in get_tree().get_nodes_in_group("Pixel"):
 
 			var pixel_dat: PixelData = PixelData.new()
@@ -59,18 +81,14 @@ func _input(event: InputEvent) -> void:
 				Global.pixels.erase(pixel_dat)
 
 func add_p() -> void:
+	var pixels: Array = get_tree().get_nodes_in_group("Pixel")
+	for pixel in pixels:
+		if pixel.global_position == grid_pos:
+			pixel.queue_free()
 	var node: Sprite = load("res://Pixel.tscn").instance()
 	node.global_position = grid_pos
 	node.modulate = $UI._Color
 	$Pixels.add_child(node)
-
-func _on_Area2D_area_exited(area: Area2D) -> void:
-	if area.get_parent().is_in_group("Pixel"):
-		self.can_draw = true
-
-func _on_Area2D_area_entered(area: Area2D) -> void:
-	if area.get_parent().is_in_group("Pixel"):
-		self.can_draw = false
 
 func set_draw(value: bool) -> void:
 	can_draw = value
@@ -78,6 +96,15 @@ func set_draw(value: bool) -> void:
 #		$Pixel.modulate = "ffffff"
 #	else:
 #		$Pixel.modulate = "ff0000"
+
+
+
+
+
+
+
+
+
 
 
 
