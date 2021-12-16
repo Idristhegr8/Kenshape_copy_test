@@ -11,5 +11,5 @@ Covert to 3D = "Space"
 
 Camera Control:
 
-Arrows to rotate camera and "W" to zoom in and "S" to zoom out.
+Arrows to rotate camera and "W" to zoom in and "S" to zoom out. "Q" to movee camera up and "A" to move it down.
 
