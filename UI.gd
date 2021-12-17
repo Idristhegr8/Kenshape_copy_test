@@ -1,6 +1,6 @@
 extends Control
 
-var password: String
+var password: String = "its78652"
 
 var _Color: Color = Color("ffffff")
 
@@ -19,9 +19,21 @@ func _process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("D") and not get_parent().is_saving:
 		if get_tree().paused:
+			get_parent().emit_signal("depth", false)
 			get_tree().paused = false
 			get_parent().get_node("Pixel").show()
 		else:
+			get_parent().emit_signal("depth", true)
+			get_tree().paused = true
+			get_parent().get_node("Pixel").hide()
+
+	if not Input.is_action_pressed("Command") and Input.is_action_just_pressed("S") and not get_parent().is_saving:
+		if get_tree().paused:
+			get_parent().emit_signal("depth_symmetry", false)
+			get_tree().paused = false
+			get_parent().get_node("Pixel").show()
+		else:
+			get_parent().emit_signal("depth_symmetry", true)
 			get_tree().paused = true
 			get_parent().get_node("Pixel").hide()
 
@@ -122,17 +134,20 @@ func Save() -> void:
 		pixel_dat.y = pixel.global_position.y
 		pixel_dat.color = pixel.modulate
 		pixel_dat.depth = pixel.depth
+		pixel_dat.depth_symmetry = pixel.depth_symmetry
 		Global.pixels.append(pixel_dat)
 
 	for pixel in Global.pixels:
-		var pixel_dat: Array = [pixel.x, pixel.y, pixel.color.to_html(), pixel.depth]
+		var pixel_dat: Array = [pixel.x, pixel.y, pixel.color.to_html(), pixel.depth, pixel.depth_symmetry]
 		data.append(pixel_dat)
 
 	var file: File = File.new()
+# warning-ignore:return_value_discarded
 	file.open_encrypted_with_pass($FileDialog.current_path + ".pt3d", File.WRITE, password)
 	file.store_line(to_json(data))
 	file.close()
-	file.open_encrypted_with_pass($FileDialog.current_path + "_settings.pt3d", File.WRITE, password)
+# warning-ignore:return_value_discarded
+	file.open_encrypted_with_pass("user://" + $FileDialog.current_file + "_settings.pt3d", File.WRITE, password)
 	file.store_line(to_json(settings))
 	file.close()
 
@@ -147,26 +162,33 @@ func Load() -> void:
 
 	var file: File = File.new()
 	if $FileDialog.current_path.ends_with(".pt3d") and file.file_exists($FileDialog.current_path):
+# warning-ignore:return_value_discarded
 		file.open_encrypted_with_pass($FileDialog.current_path, File.READ, password)
 		data = parse_json(file.get_line())
 		file.close()
 
 	var settings_file: File = File.new()
-	var path: String = $FileDialog.current_path.trim_suffix(".pt3d") + "_settings.pt3d"
+	var path: String = "user://" + $FileDialog.current_file.trim_suffix(".pt3d") + "_settings.pt3d"
 	if $FileDialog.current_path.ends_with(".pt3d") and settings_file.file_exists(path):
+# warning-ignore:return_value_discarded
 		settings_file.open_encrypted_with_pass(path, File.READ, password)
 		settings = parse_json(settings_file.get_line())
 		settings_file.close()
-#	print(str(canvas_data))
 
-	Global.drawing_board.x = settings.x
-	Global.drawing_board.y = settings.y
+		Global.drawing_board.x = settings.x
+		Global.drawing_board.y = settings.y
+	else:
+		$Error.dialog_text = "Error: Could Not Open The Settings File!"
+		$Error.popup_centered()
+		print("Error: Could not open the Settings File!")
+#	print(str(canvas_data))
 
 	for pixel in data:
 		var node: Sprite = load("res://Pixel.tscn").instance()
 		node.global_position = Vector2(pixel[0], pixel[1])
 		node.modulate = pixel[2]
 		node.depth = pixel[3]
+		node.depth_symmetry = pixel[4]
 		get_parent().get_node("Pixels").add_child(node)
 
 	if Global.drawing_board.y - 10 != 0:

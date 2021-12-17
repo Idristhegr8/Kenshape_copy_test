@@ -7,7 +7,7 @@ func _ready() -> void:
 #		if x_pixels.has(pixel.x/64):
 #			add_b(-pixel.x, pixel.y)
 #		else:
-			add_b((pixel.x/64-((Global.drawing_board.x/2)-1))*64, (pixel.y/64-((Global.drawing_board.y/2)-1))*64, pixel.color, pixel.depth)
+			add_b((pixel.x/64-((Global.drawing_board.x/2)-1))*64, (pixel.y/64-((Global.drawing_board.y/2)-1))*64, pixel.color, pixel.depth, pixel.depth_symmetry)
 
 #		#symetry
 #		add_b(-pixel.x, pixel.y)
@@ -23,7 +23,7 @@ func _ready() -> void:
 #		node.translation = Vector3(0, y_pixel/64, 0)
 #		$Meshes.add_child(node)
 
-func add_b(x: int, y: int, color: Color, depth: int) -> void:
+func add_b(x: int, y: int, color: Color, depth: int, depth_symmetry: bool) -> void:
 	var node: CSGMesh = load("res://CSGMesh.tscn").instance()
 # warning-ignore:integer_division
 # warning-ignore:integer_division
@@ -35,7 +35,7 @@ func add_b(x: int, y: int, color: Color, depth: int) -> void:
 
 	if depth > 1:
 # warning-ignore:integer_division
-		if not depth %2:
+		if not depth_symmetry:
 			for num in depth-1:
 				var d_node: CSGMesh = load("res://CSGMesh.tscn").instance()
 				d_node.translation = Vector3(node.translation.x, node.translation.y, num + 1)

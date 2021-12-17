@@ -14,6 +14,7 @@ texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="Depth" type="Button" parent="."]
+visible = false
 margin_left = -8.0
 margin_top = -8.0
 margin_right = 24.0
@@ -29,4 +30,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Depth_symmetry" type="Button" parent="."]
+visible = false
+margin_left = -8.0
+margin_top = -8.0
+margin_right = 24.0
+margin_bottom = 24.0
+rect_scale = Vector2( 0.5, 0.5 )
+focus_mode = 0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+enabled_focus_mode = 0
+text = " f"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="Depth" to="." method="_on_Depth_pressed"]
+[connection signal="pressed" from="Depth_symmetry" to="." method="_on_Depth_symmetry_pressed"]

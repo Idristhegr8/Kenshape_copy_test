@@ -1,5 +1,10 @@
 extends Node2D
 
+# warning-ignore:unused_signal
+signal depth()
+# warning-ignore:unused_signal
+signal depth_symmetry
+
 enum{
 	pencil,
 	eraser
@@ -60,6 +65,7 @@ func _process(delta: float) -> void:
 			pixel_dat.y = pixel.global_position.y
 			pixel_dat.color = pixel.modulate
 			pixel_dat.depth = pixel.depth
+			pixel_dat.depth_symmetry = pixel.depth_symmetry
 			Global.pixels.append(pixel_dat)
 
 # warning-ignore:return_value_discarded
@@ -90,6 +96,10 @@ func add_p() -> void:
 		var node: Sprite = load("res://Pixel.tscn").instance()
 		node.global_position = grid_pos
 		node.modulate = $UI._Color
+# warning-ignore:return_value_discarded
+		connect("depth", node, "depth")
+# warning-ignore:return_value_discarded
+		connect("depth_symmetry", node, "depth_symmetry")
 		$Pixels.add_child(node)
 
 func set_draw(value: bool) -> void:
