@@ -77,25 +77,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FileDialog" type="FileDialog" parent="UI"]
-visible = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -208.0
-margin_top = -92.0
-margin_right = 208.0
-margin_bottom = 92.0
-rect_min_size = Vector2( 400, 140 )
-resizable = true
-access = 2
-current_dir = "/Users/saif/Downloads"
-current_path = "/Users/saif/Downloads/"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Error" type="AcceptDialog" parent="UI"]
 margin_right = 83.0
 margin_bottom = 58.0
@@ -181,7 +162,6 @@ __meta__ = {
 }
 
 [connection signal="color_changed" from="UI/ColorPicker" to="UI" method="_on_ColorPicker_color_changed"]
-[connection signal="confirmed" from="UI/FileDialog" to="UI" method="_on_FileDialog_confirmed"]
 [connection signal="mouse_entered" from="UI/Tools/P" to="UI" method="_on_Button_mouse_entered"]
 [connection signal="mouse_exited" from="UI/Tools/P" to="UI" method="_on_Button_mouse_exited"]
 [connection signal="pressed" from="UI/Tools/P" to="UI" method="_on_P_pressed"]

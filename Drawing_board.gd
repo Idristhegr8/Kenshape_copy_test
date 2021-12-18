@@ -3,7 +3,7 @@ extends Node2D
 # warning-ignore:unused_signal
 signal depth()
 # warning-ignore:unused_signal
-signal depth_symmetry
+signal depth_symmetry()
 
 enum{
 	pencil,
@@ -25,7 +25,7 @@ func _ready() -> void:
 			$UI.rect_size.y += 64
 			$Camera2D.zoom.y += 0.1
 			$UI/ColorPicker.rect_scale.y += 0.1
-			$UI/FileDialog.rect_scale.y += 0.1
+#			$UI/FileDialog.rect_scale.y += 0.1
 			$UI/ColorPicker.rect_global_position.y -= 23.1
 
 	if Global.drawing_board.x - 10 != 0:
@@ -35,7 +35,7 @@ func _ready() -> void:
 			$UI.rect_size.x += 64
 			$Camera2D.zoom.x += 0.1
 			$UI/ColorPicker.rect_scale.x += 0.1
-			$UI/FileDialog.rect_scale.x += 0.1
+#			$UI/FileDialog.rect_scale.x += 0.1
 			$UI/ColorPicker.rect_global_position.x -= 16.8
 
 	if Global.pixels != []:

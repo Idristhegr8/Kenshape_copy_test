@@ -43,9 +43,9 @@ func _process(delta: float) -> void:
 			get_tree().paused = false
 			get_parent().get_node("Pixel").show()
 		else:
+			var save_dialogue = load("res://Save_image_dialogue.tscn").instance()
+			add_child(save_dialogue)
 			get_parent().is_saving = true
-			$FileDialog.mode = FileDialog.MODE_SAVE_FILE
-			$FileDialog.popup_centered()
 			get_tree().paused = true
 			get_parent().get_node("Pixel").hide()
 
@@ -54,8 +54,8 @@ func _process(delta: float) -> void:
 			get_tree().paused = false
 			get_parent().get_node("Pixel").show()
 		else:
-			$FileDialog.mode = FileDialog.MODE_OPEN_FILE
-			$FileDialog.popup_centered()
+			var save_dialogue = load("res://Select_file_dialogue.tscn").instance()
+			add_child(save_dialogue)
 			get_tree().paused = true
 			get_parent().get_node("Pixel").hide()
 
@@ -109,49 +109,7 @@ func _on_Button_mouse_exited() -> void:
 	get_parent().can_draw = true
 	get_parent().get_node("Pixel").show()
 
-func _on_FileDialog_confirmed() -> void:
-	if $FileDialog.mode == FileDialog.MODE_SAVE_FILE:
-		Save()
-	else:
-		Load()
-	get_parent().is_saving = false
-	get_tree().paused = false
-	get_parent().get_node("Pixel").show()
-
-func Save() -> void:
-
-	var settings: Dictionary = {
-		x = Global.drawing_board.x,
-		y = Global.drawing_board.y
-	}
-
-	var data: Array = []
-
-	Global.pixels.clear()
-	for pixel in get_tree().get_nodes_in_group("Pixel"):
-		var pixel_dat: PixelData = PixelData.new()
-		pixel_dat.x = pixel.global_position.x
-		pixel_dat.y = pixel.global_position.y
-		pixel_dat.color = pixel.modulate
-		pixel_dat.depth = pixel.depth
-		pixel_dat.depth_symmetry = pixel.depth_symmetry
-		Global.pixels.append(pixel_dat)
-
-	for pixel in Global.pixels:
-		var pixel_dat: Array = [pixel.x, pixel.y, pixel.color.to_html(), pixel.depth, pixel.depth_symmetry]
-		data.append(pixel_dat)
-
-	var file: File = File.new()
-# warning-ignore:return_value_discarded
-	file.open_encrypted_with_pass($FileDialog.current_path + ".pt3d", File.WRITE, password)
-	file.store_line(to_json(data))
-	file.close()
-# warning-ignore:return_value_discarded
-	file.open_encrypted_with_pass("user://" + $FileDialog.current_file + "_settings.pt3d", File.WRITE, password)
-	file.store_line(to_json(settings))
-	file.close()
-
-func Load() -> void:
+func Load(file_path: String, file_name: String) -> void:
 
 	for pixel in get_parent().get_node("Pixels").get_children():
 		pixel.queue_free()
@@ -161,15 +119,16 @@ func Load() -> void:
 	var data: Array
 
 	var file: File = File.new()
-	if $FileDialog.current_path.ends_with(".pt3d") and file.file_exists($FileDialog.current_path):
+	if file_path.ends_with(".pt3d") and file.file_exists(file_path):
 # warning-ignore:return_value_discarded
-		file.open_encrypted_with_pass($FileDialog.current_path, File.READ, password)
+		file.open_encrypted_with_pass(file_path, File.READ, password)
 		data = parse_json(file.get_line())
 		file.close()
 
 	var settings_file: File = File.new()
-	var path: String = "user://" + $FileDialog.current_file.trim_suffix(".pt3d") + "_settings.pt3d"
-	if $FileDialog.current_path.ends_with(".pt3d") and settings_file.file_exists(path):
+	var path: String = "user://" + file_name.trim_suffix(".pt3d") + "_settings.pt3d"
+	print(path)
+	if file_path.ends_with(".pt3d") and settings_file.file_exists(path):
 # warning-ignore:return_value_discarded
 		settings_file.open_encrypted_with_pass(path, File.READ, password)
 		settings = parse_json(settings_file.get_line())
@@ -189,6 +148,8 @@ func Load() -> void:
 		node.modulate = pixel[2]
 		node.depth = pixel[3]
 		node.depth_symmetry = pixel[4]
+		get_parent().connect("depth", node, "depth")
+		get_parent().connect("depth_symmetry", node, "depth_symmetry")
 		get_parent().get_node("Pixels").add_child(node)
 
 	if Global.drawing_board.y - 10 != 0:
@@ -198,7 +159,6 @@ func Load() -> void:
 			rect_size.y += 64
 			get_parent().get_node("Camera2D").zoom.y += 0.1
 			$ColorPicker.rect_scale.y += 0.1
-			$FileDialog.rect_scale.y += 0.1
 			$ColorPicker.rect_global_position.y -= 23.1
 
 	if Global.drawing_board.x - 10 != 0:
@@ -209,7 +169,6 @@ func Load() -> void:
 			rect_size.x += 64
 			get_parent().get_node("Camera2D").zoom.x += 0.1
 			$ColorPicker.rect_scale.x += 0.1
-			$FileDialog.rect_scale.x += 0.1
 			$ColorPicker.rect_global_position.x -= 16.8
 
 
