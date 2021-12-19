@@ -95,7 +95,7 @@ func _on_Create_file_pressed() -> void:
 			y = Global.drawing_board.y
 		}
 
-		var data: Array = []
+		var pixel_data: Array = []
 
 		Global.pixels.clear()
 		for pixel in get_tree().get_nodes_in_group("Pixel"):
@@ -109,15 +109,16 @@ func _on_Create_file_pressed() -> void:
 
 		for pixel in Global.pixels:
 			var pixel_dat: Array = [pixel.x, pixel.y, pixel.color.to_html(), pixel.depth, pixel.depth_symmetry]
-			data.append(pixel_dat)
+			pixel_data.append(pixel_dat)
+
+		var data: Dictionary = {
+			pixel_data = pixel_data,
+			settings = settings
+		}
 
 	# warning-ignore:return_value_discarded
 		file.open_encrypted_with_pass(path + "/" + $File_name.text + path_extension, File.WRITE, get_parent().password)
 		file.store_line(to_json(data))
-		file.close()
-	# warning-ignore:return_value_discarded
-		file.open_encrypted_with_pass("user://" + $File_name.text + "_settings.pt3d", File.WRITE, get_parent().password)
-		file.store_line(to_json(settings))
 		file.close()
 
 		queue_free()
@@ -138,7 +139,7 @@ func _on_Overwrite_pressed() -> void:
 		y = Global.drawing_board.y
 	}
 
-	var data: Array = []
+	var pixel_data: Array = []
 
 	Global.pixels.clear()
 	for pixel in get_tree().get_nodes_in_group("Pixel"):
@@ -152,15 +153,16 @@ func _on_Overwrite_pressed() -> void:
 
 	for pixel in Global.pixels:
 		var pixel_dat: Array = [pixel.x, pixel.y, pixel.color.to_html(), pixel.depth, pixel.depth_symmetry]
-		data.append(pixel_dat)
+		pixel_data.append(pixel_dat)
+
+	var data: Dictionary = {
+		pixel_data = pixel_data,
+		settings = settings
+	}
 
 # warning-ignore:return_value_discarded
 	file.open_encrypted_with_pass(path + "/" + $File_name.text + path_extension, File.WRITE, get_parent().password)
 	file.store_line(to_json(data))
-	file.close()
-# warning-ignore:return_value_discarded
-	file.open_encrypted_with_pass("user://" + $File_name.text + "_settings.pt3d", File.WRITE, get_parent().password)
-	file.store_line(to_json(settings))
 	file.close()
 
 	queue_free()

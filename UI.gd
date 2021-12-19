@@ -109,14 +109,12 @@ func _on_Button_mouse_exited() -> void:
 	get_parent().can_draw = true
 	get_parent().get_node("Pixel").show()
 
-func Load(file_path: String, file_name: String) -> void:
+func Load(file_path: String) -> void:
 
 	for pixel in get_parent().get_node("Pixels").get_children():
 		pixel.queue_free()
 
-	var settings: Dictionary = {}
-
-	var data: Array
+	var data: Dictionary
 
 	var file: File = File.new()
 	if file_path.ends_with(".pt3d") and file.file_exists(file_path):
@@ -125,30 +123,23 @@ func Load(file_path: String, file_name: String) -> void:
 		data = parse_json(file.get_line())
 		file.close()
 
-	var settings_file: File = File.new()
-	var path: String = "user://" + file_name.trim_suffix(".pt3d") + "_settings.pt3d"
-	print(path)
-	if file_path.ends_with(".pt3d") and settings_file.file_exists(path):
-# warning-ignore:return_value_discarded
-		settings_file.open_encrypted_with_pass(path, File.READ, password)
-		settings = parse_json(settings_file.get_line())
-		settings_file.close()
-
-		Global.drawing_board.x = settings.x
-		Global.drawing_board.y = settings.y
+		Global.drawing_board.x = data.settings.x
+		Global.drawing_board.y = data.settings.y
 	else:
-		$Error.dialog_text = "Error: Could Not Open The Settings File!"
+		$Error.dialog_text = "Error: Could Not Open The File!"
 		$Error.popup_centered()
-		print("Error: Could not open the Settings File!")
+		print("Error: Could not open the File!")
 #	print(str(canvas_data))
 
-	for pixel in data:
+	for pixel in data.pixel_data:
 		var node: Sprite = load("res://Pixel.tscn").instance()
 		node.global_position = Vector2(pixel[0], pixel[1])
 		node.modulate = pixel[2]
 		node.depth = pixel[3]
 		node.depth_symmetry = pixel[4]
+# warning-ignore:return_value_discarded
 		get_parent().connect("depth", node, "depth")
+# warning-ignore:return_value_discarded
 		get_parent().connect("depth_symmetry", node, "depth_symmetry")
 		get_parent().get_node("Pixels").add_child(node)
 

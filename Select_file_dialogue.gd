@@ -110,8 +110,7 @@ func change_file():
 				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
 
 func _on_Select_pressed() -> void:
-	var files: Array = file_path.split("/")
-	parent.Load(file_path, files[files.size()-1])
+	parent.Load(file_path)
 	queue_free()
 	get_tree().paused = false
 	get_parent().get_parent().get_node("Pixel").show()
