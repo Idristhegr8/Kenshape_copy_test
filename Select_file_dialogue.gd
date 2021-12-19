@@ -1,5 +1,7 @@
 extends Control
 
+var current_sort: String = "Name"
+
 var file_path: String
 var _files: Array = []
 var index_selected: int
@@ -10,7 +12,7 @@ func _ready() -> void:
 	parent = get_parent()
 	var files: Array = []
 	files = get_files(path)
-	files.sort()
+#	files.sort()
 
 	var dir: Directory = Directory.new()
 	for file in files:
@@ -41,6 +43,10 @@ func get_files(path: String) -> Array:
 	dir.list_dir_end()
 	_files = files
 	$Path.text = path
+	if current_sort == "Name":
+		files.sort()
+	else:
+		files.sort_custom(self, "date_sort")
 	return files
 
 func _on_FilesAndFolders_item_activated(index: int) -> void:
@@ -50,7 +56,7 @@ func _on_FilesAndFolders_item_activated(index: int) -> void:
 		var files: Array = []
 		path = path + "/" + _files[index]
 		files = get_files(path)
-		files.sort()
+#		files.sort()
 
 		for file in files:
 			$FilesAndFolders.add_item(file)
@@ -70,7 +76,7 @@ func _on_FilesAndFolders_item_selected(index: int) -> void:
 		var files: Array = []
 		path = path + "/" + _files[index]
 		files = get_files(path)
-		files.sort()
+#		files.sort()
 
 		for file in files:
 			$FilesAndFolders.add_item(file)
@@ -93,7 +99,7 @@ func change_file():
 		path = new_path
 		var files: Array = []
 		files = get_files(path)
-		files.sort()
+#		files.sort()
 
 		var dir: Directory = Directory.new()
 		for file in files:
@@ -115,6 +121,38 @@ func _on_Cancel_Saving_pressed() -> void:
 	get_tree().paused = false
 	get_parent().get_parent().get_node("Pixel").show()
 
+func _on_Name_pressed() -> void:
+	current_sort = "Name"
+
+	var files: Array = get_files(path)
+
+	var dir: Directory = Directory.new()
+	for file in files:
+		$FilesAndFolders.add_item(file)
+		if dir.dir_exists(path + "/" + file):
+			$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
+		else:
+			$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
+
+func _on_Date_pressed() -> void:
+	current_sort = "Date"
+
+	var files: Array = get_files(path)
+
+	var dir: Directory = Directory.new()
+	for file in files:
+		$FilesAndFolders.add_item(file)
+		if dir.dir_exists(path + "/" + file):
+			$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
+		else:
+			$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
+
+func date_sort(a, b) -> bool:
+	var file: File = File.new()
+	if file.get_modified_time(path + "/" + a) > file.get_modified_time(path + "/" + b):
+		return true
+	else:
+		return false
 
 
 

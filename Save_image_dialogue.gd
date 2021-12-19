@@ -1,5 +1,7 @@
 extends Control
 
+var current_sort: String = "Name"
+
 var index_selected: int
 var _files: Array = []
 var path_extension: String = ".pt3d"
@@ -24,7 +26,7 @@ func _ready() -> void:
 
 	var files: Array = []
 	files = get_files(path)
-	files.sort()
+#	files.sort()
 
 	var dir: Directory = Directory.new()
 	for file in files:
@@ -54,6 +56,10 @@ func get_files(path: String) -> Array:
 			files.append(file)
 	dir.list_dir_end()
 	_files = files
+	if current_sort == "Name":
+		files.sort()
+	else:
+		files.sort_custom(self, "date_sort")
 	return files
 
 func _on_Cancel_Saving_pressed() -> void:
@@ -70,7 +76,7 @@ func _on_Create_folder_pressed() -> void:
 
 		var files: Array = []
 		files = get_files(path)
-		files.sort()
+#		files.sort()
 
 		for file in files:
 			$FilesAndFolders.add_item(file)
@@ -149,11 +155,11 @@ func _on_Overwrite_pressed() -> void:
 		data.append(pixel_dat)
 
 # warning-ignore:return_value_discarded
-	file.open_encrypted_with_pass($FileDialog.current_path + ".pt3d", File.WRITE, get_parent().password)
+	file.open_encrypted_with_pass(path + "/" + $File_name.text + path_extension, File.WRITE, get_parent().password)
 	file.store_line(to_json(data))
 	file.close()
 # warning-ignore:return_value_discarded
-	file.open_encrypted_with_pass("user://" + $FileDialog.current_file + "_settings.pt3d", File.WRITE, get_parent().password)
+	file.open_encrypted_with_pass("user://" + $File_name.text + "_settings.pt3d", File.WRITE, get_parent().password)
 	file.store_line(to_json(settings))
 	file.close()
 
@@ -168,7 +174,7 @@ func _on_FilesAndFolders_item_activated(index: int) -> void:
 		var files: Array = []
 		path = path + "/" + _files[index]
 		files = get_files(path)
-		files.sort()
+#		files.sort()
 
 		for file in files:
 			$FilesAndFolders.add_item(file)
@@ -185,7 +191,7 @@ func _on_FilesAndFolders_item_selected(index: int) -> void:
 		var files: Array = []
 		path = path + "/" + _files[index]
 		files = get_files(path)
-		files.sort()
+#		files.sort()
 
 		for file in files:
 			$FilesAndFolders.add_item(file)
@@ -208,7 +214,7 @@ func change_file():
 		path = new_path
 		var files: Array = []
 		files = get_files(path)
-		files.sort()
+#		files.sort()
 
 		var dir: Directory = Directory.new()
 		for file in files:
@@ -218,7 +224,38 @@ func change_file():
 			else:
 				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
 
+func _on_Name_pressed() -> void:
+	current_sort = "Name"
 
+	var files: Array = get_files(path)
+
+	var dir: Directory = Directory.new()
+	for file in files:
+		$FilesAndFolders.add_item(file)
+		if dir.dir_exists(path + "/" + file):
+			$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
+		else:
+			$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
+
+func _on_Date_pressed() -> void:
+	current_sort = "Date"
+
+	var files: Array = get_files(path)
+
+	var dir: Directory = Directory.new()
+	for file in files:
+		$FilesAndFolders.add_item(file)
+		if dir.dir_exists(path + "/" + file):
+			$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
+		else:
+			$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
+
+func date_sort(a, b) -> bool:
+	var file: File = File.new()
+	if file.get_modified_time(path + "/" + a) > file.get_modified_time(path + "/" + b):
+		return true
+	else:
+		return false
 
 
 
