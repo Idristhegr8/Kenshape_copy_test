@@ -1,5 +1,7 @@
 extends Node2D
 
+var max_zoom: Vector2
+
 # warning-ignore:unused_signal
 signal depth()
 # warning-ignore:unused_signal
@@ -7,7 +9,8 @@ signal depth_symmetry()
 
 enum{
 	pencil,
-	eraser
+	eraser,
+	color_picker
 }
 
 var state = pencil
@@ -23,7 +26,7 @@ func _ready() -> void:
 		var extra_y: int = Global.drawing_board.y-10
 		for y in extra_y:
 			$UI.rect_size.y += 64
-			$Camera2D.zoom.y += 0.1
+#			$Camera2D.zoom.y += 0.1
 			$UI/ColorPicker.rect_scale.y += 0.1
 #			$UI/FileDialog.rect_scale.y += 0.1
 			$UI/ColorPicker.rect_global_position.y -= 23.1
@@ -33,7 +36,7 @@ func _ready() -> void:
 		var extra_x: int = Global.drawing_board.x-10
 		for x in extra_x:
 			$UI.rect_size.x += 64
-			$Camera2D.zoom.x += 0.1
+#			$Camera2D.zoom.x += 0.1
 			$UI/ColorPicker.rect_scale.x += 0.1
 #			$UI/FileDialog.rect_scale.x += 0.1
 			$UI/ColorPicker.rect_global_position.x -= 16.8
@@ -53,6 +56,14 @@ func _ready() -> void:
 	if Global.drawing_board.x > 10:
 		$BG.rect_size = Global.drawing_board
 
+	$Camera2D.limit_bottom = Global.drawing_board.y*64+32
+	$Camera2D.limit_right = Global.drawing_board.x*64+32
+	if Global.drawing_board.x > Global.drawing_board.y:
+		$Camera2D.zoom = Vector2(Global.drawing_board.y/10, Global.drawing_board.y/10)
+		max_zoom = Vector2(Global.drawing_board.y/10, Global.drawing_board.y/10)
+	else:
+		max_zoom = Vector2(Global.drawing_board.x/10, Global.drawing_board.x/10)
+		$Camera2D.zoom = Vector2(Global.drawing_board.x/10, Global.drawing_board.x/10)
 
 # warning-ignore:unused_argument
 func _process(delta: float) -> void:
@@ -75,9 +86,31 @@ func _process(delta: float) -> void:
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://Spatial.tscn")
 	if Input.is_action_just_pressed("E") and not is_saving:
+		$Pixel.hide()
+		$Pixel_outline.show()
 		state = eraser
 	if Input.is_action_just_pressed("P") and not is_saving:
+		$Pixel.show()
+		$Pixel_outline.hide()
 		state = pencil
+	if Input.is_action_just_pressed("O") and not is_saving:
+		$Pixel.hide()
+		$Pixel_outline.show()
+		state = color_picker
+
+	if Input.is_action_pressed("Q") and $Camera2D.zoom > Vector2(1, 1):
+		$Camera2D.zoom -= Vector2(0.1, 0.1)
+	elif Input.is_action_pressed("W") and $Camera2D.zoom < max_zoom:
+		$Camera2D.zoom += Vector2(0.1, 0.1)
+
+	if Input.is_action_pressed("ui_up"):
+		$Camera2D.global_position.y -= 20
+	if Input.is_action_pressed("ui_down"):
+		$Camera2D.global_position.y += 20
+	if Input.is_action_pressed("ui_right"):
+		$Camera2D.global_position.x += 20
+	if Input.is_action_pressed("ui_left"):
+		$Camera2D.global_position.x -= 20
 
 # warning-ignore:unused_argument
 func _input(event: InputEvent) -> void:
@@ -90,13 +123,18 @@ func _input(event: InputEvent) -> void:
 		for pixel_dat in Global.pixels:
 			if Vector2(pixel_dat.x, pixel_dat.y) == grid_pos:
 				Global.pixels.erase(pixel_dat)
+	if Input.is_mouse_button_pressed(BUTTON_LEFT) and state == color_picker:
+		for pixel in $Pixels.get_children():
+			if pixel.global_position == grid_pos:
+				$UI._Color = pixel.modulate
+				$Pixel.modulate = pixel.modulate
 
 func add_p() -> void:
 	var pixels: Array = get_tree().get_nodes_in_group("Pixel")
 	for pixel in pixels:
 		if pixel.global_position == grid_pos:
 			pixel.queue_free()
-	if not grid_pos.x > Global.drawing_board.x*64 and not grid_pos.y > Global.drawing_board.y*64 and not grid_pos.x < 0 and not grid_pos.y < 0:
+	if not grid_pos.x > Global.drawing_board.x*64 and not grid_pos.y > Global.drawing_board.y*64 and not grid_pos.x < 64 and not grid_pos.y < 64:
 		var node: Sprite = load("res://Pixel.tscn").instance()
 		node.global_position = grid_pos
 		node.modulate = $UI._Color

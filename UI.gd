@@ -1,48 +1,49 @@
 extends Control
 
 var password: String = "its78652"
-
+var mode: String = ""
 var _Color: Color = Color("ffffff")
 
 # warning-ignore:unused_argument
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("C") and not get_parent().is_saving:
-		if $ColorPicker.visible:
+		if $ColorPicker.visible and mode == "Color":
 			$ColorPicker.hide()
 			get_tree().paused = false
 			get_parent().get_node("Pixel").modulate = _Color
 			get_parent().get_node("Pixel").show()
 		else:
+			mode = "Color"
 			get_parent().get_node("Pixel").hide()
 			$ColorPicker.show()
 			get_tree().paused = true
 
+	
+
 	if Input.is_action_just_pressed("D") and not get_parent().is_saving:
-		if get_tree().paused:
+		if get_tree().paused and mode == "Depth":
 			get_parent().emit_signal("depth", false)
 			get_tree().paused = false
 			get_parent().get_node("Pixel").show()
 		else:
+			mode = "Depth"
 			get_parent().emit_signal("depth", true)
 			get_tree().paused = true
 			get_parent().get_node("Pixel").hide()
 
 	if not Input.is_action_pressed("Command") and Input.is_action_just_pressed("S") and not get_parent().is_saving:
-		if get_tree().paused:
+		if get_tree().paused and mode == "Symmetry":
 			get_parent().emit_signal("depth_symmetry", false)
 			get_tree().paused = false
 			get_parent().get_node("Pixel").show()
 		else:
+			mode = "Symmetry"
 			get_parent().emit_signal("depth_symmetry", true)
 			get_tree().paused = true
 			get_parent().get_node("Pixel").hide()
 
 	if Input.is_action_pressed("Command") and Input.is_action_just_pressed("S"):
-		if get_tree().paused:
-			get_parent().is_saving = false
-			get_tree().paused = false
-			get_parent().get_node("Pixel").show()
-		else:
+		if not get_tree().paused:
 			var save_dialogue = load("res://Save_image_dialogue.tscn").instance()
 			add_child(save_dialogue)
 			get_parent().is_saving = true
@@ -50,10 +51,7 @@ func _process(delta: float) -> void:
 			get_parent().get_node("Pixel").hide()
 
 	if Input.is_action_pressed("Command") and Input.is_action_just_pressed("L") and not get_parent().is_saving:
-		if get_tree().paused:
-			get_tree().paused = false
-			get_parent().get_node("Pixel").show()
-		else:
+		if not get_tree().paused:
 			var save_dialogue = load("res://Select_file_dialogue.tscn").instance()
 			add_child(save_dialogue)
 			get_tree().paused = true

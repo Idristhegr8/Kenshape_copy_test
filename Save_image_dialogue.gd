@@ -205,25 +205,6 @@ func _on_FilesAndFolders_item_selected(index: int) -> void:
 			else:
 				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
 
-#func _on_FilesAndFolders_item_selected(index: int) -> void:
-#
-#	var dir: Directory = Directory.new()
-#	if index_selected != index:
-#		index_selected = index
-#		path = path + "/" + _files[index]
-#	elif dir.dir_exists(OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS) + "/" + _files[index]):
-#		index_selected = -1
-#		var files: Array = []
-#		files = get_files(path)
-##		files.sort()
-#
-#		for file in files:
-#			$FilesAndFolders.add_item(file)
-#			if dir.dir_exists(path + "/" + file):
-#				$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
-#			else:
-#				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
-
 func _on_Up_pressed() -> void:
 	change_file()
 
