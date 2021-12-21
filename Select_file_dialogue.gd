@@ -2,9 +2,8 @@ extends Control
 
 var current_sort: String = "Name"
 
-var file_path: String
 var _files: Array = []
-var index_selected: int
+var index_selected: int = -1
 var path: String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
 var parent: Control
 
@@ -38,7 +37,7 @@ func get_files(path: String) -> Array:
 		var file = dir.get_next()
 		if file == "":
 			break
-		else: #elif file.begins_with(".") or file.ends_with(".jpg") or file.ends_with(".png"):
+		elif not file.begins_with("."):
 			files.append(file)
 	dir.list_dir_end()
 	_files = files
@@ -49,6 +48,22 @@ func get_files(path: String) -> Array:
 		files.sort_custom(self, "date_sort")
 	return files
 
+#func _on_FilesAndFolders_item_activated(index: int) -> void:
+#	var dir: Directory = Directory.new()
+#
+#	if dir.dir_exists(OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS) + "/" + _files[index]):
+#		var files: Array = []
+#		path = path + "/" + _files[index]
+#		files = get_files(path)
+##		files.sort()
+#
+#		for file in files:
+#			$FilesAndFolders.add_item(file)
+#			if dir.dir_exists(path + "/" + file):
+#				$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
+#			else:
+#				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
+
 func _on_FilesAndFolders_item_activated(index: int) -> void:
 	var dir: Directory = Directory.new()
 
@@ -56,18 +71,11 @@ func _on_FilesAndFolders_item_activated(index: int) -> void:
 		var files: Array = []
 		path = path + "/" + _files[index]
 		files = get_files(path)
-#		files.sort()
-
+		files.sort()
 		for file in files:
 			$FilesAndFolders.add_item(file)
-			if dir.dir_exists(path + "/" + file):
-				$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
-			else:
-				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
 
 func _on_FilesAndFolders_item_selected(index: int) -> void:
-	file_path = path + "/" + _files[index]
-	$Path.text = file_path
 
 	var dir: Directory = Directory.new()
 	if index_selected != index:
@@ -76,7 +84,6 @@ func _on_FilesAndFolders_item_selected(index: int) -> void:
 		var files: Array = []
 		path = path + "/" + _files[index]
 		files = get_files(path)
-#		files.sort()
 
 		for file in files:
 			$FilesAndFolders.add_item(file)
@@ -110,7 +117,9 @@ func change_file():
 				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
 
 func _on_Select_pressed() -> void:
-	parent.Load(file_path)
+	path = path + "/" + _files[index_selected]
+	print(path)
+	parent.Load(path)
 	queue_free()
 	get_tree().paused = false
 	get_parent().get_parent().get_node("Pixel").show()

@@ -44,6 +44,10 @@ func _ready() -> void:
 			node.global_position = Vector2(pixel.x, pixel.y)
 			node.modulate = pixel.color
 			node.depth = pixel.depth
+# warning-ignore:return_value_discarded
+			connect("depth", node, "depth")
+# warning-ignore:return_value_discarded
+			connect("depth_symmetry", node, "depth_symmetry")
 			$Pixels.add_child(node)
 
 	if Global.drawing_board.x > 10:

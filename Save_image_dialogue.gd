@@ -2,7 +2,7 @@ extends Control
 
 var current_sort: String = "Name"
 
-var index_selected: int
+var index_selected: int = -1
 var _files: Array = []
 var path_extension: String = ".pt3d"
 var path: String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
@@ -63,6 +63,7 @@ func get_files(path: String) -> Array:
 	return files
 
 func _on_Cancel_Saving_pressed() -> void:
+	get_parent().get_parent().is_saving = false
 	queue_free()
 	get_tree().paused = false
 	get_parent().get_parent().get_node("Pixel").show()
@@ -123,6 +124,7 @@ func _on_Create_file_pressed() -> void:
 
 		queue_free()
 		get_tree().paused = false
+		get_parent().get_parent().is_saving = false
 		get_parent().get_parent().get_node("Pixel").show()
 	else:
 		$File_exists_popup.show()
@@ -167,6 +169,7 @@ func _on_Overwrite_pressed() -> void:
 
 	queue_free()
 	get_tree().paused = false
+	get_parent().get_parent().is_saving = false
 	get_parent().get_parent().get_node("Pixel").show()
 
 func _on_FilesAndFolders_item_activated(index: int) -> void:
@@ -186,6 +189,7 @@ func _on_FilesAndFolders_item_activated(index: int) -> void:
 				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
 
 func _on_FilesAndFolders_item_selected(index: int) -> void:
+
 	var dir: Directory = Directory.new()
 	if index_selected != index:
 		index_selected = index
@@ -193,7 +197,6 @@ func _on_FilesAndFolders_item_selected(index: int) -> void:
 		var files: Array = []
 		path = path + "/" + _files[index]
 		files = get_files(path)
-#		files.sort()
 
 		for file in files:
 			$FilesAndFolders.add_item(file)
@@ -201,6 +204,25 @@ func _on_FilesAndFolders_item_selected(index: int) -> void:
 				$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
 			else:
 				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
+
+#func _on_FilesAndFolders_item_selected(index: int) -> void:
+#
+#	var dir: Directory = Directory.new()
+#	if index_selected != index:
+#		index_selected = index
+#		path = path + "/" + _files[index]
+#	elif dir.dir_exists(OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS) + "/" + _files[index]):
+#		index_selected = -1
+#		var files: Array = []
+#		files = get_files(path)
+##		files.sort()
+#
+#		for file in files:
+#			$FilesAndFolders.add_item(file)
+#			if dir.dir_exists(path + "/" + file):
+#				$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
+#			else:
+#				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
 
 func _on_Up_pressed() -> void:
 	change_file()
