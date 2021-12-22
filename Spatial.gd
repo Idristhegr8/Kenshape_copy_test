@@ -3,6 +3,11 @@ extends Spatial
 var pixel_y: Array = []
 
 func _ready() -> void:
+	if Global.drawing_board.x > Global.drawing_board.y:
+		$CameraGimbal/InnerGimbal/Camera.translation.z = Global.drawing_board.x
+	else:
+		$CameraGimbal/InnerGimbal/Camera.translation.z = Global.drawing_board.y
+
 	for pixel in Global.pixels:
 #		if x_pixels.has(pixel.x/64):
 #			add_b(-pixel.x, pixel.y)

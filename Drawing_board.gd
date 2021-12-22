@@ -1,5 +1,9 @@
 extends Node2D
 
+var undo_history: Array = []
+var redo_history: Array = []
+var temp_arr: Array = []
+
 var max_zoom: Vector2
 
 # warning-ignore:unused_signal
@@ -47,6 +51,7 @@ func _ready() -> void:
 			node.global_position = Vector2(pixel.x, pixel.y)
 			node.modulate = pixel.color
 			node.depth = pixel.depth
+			node.depth_symmetry = pixel.depth_symmetry
 # warning-ignore:return_value_discarded
 			connect("depth", node, "depth")
 # warning-ignore:return_value_discarded
@@ -98,6 +103,12 @@ func _process(delta: float) -> void:
 		$Pixel_outline.show()
 		state = color_picker
 
+	if Input.is_action_pressed("Command") and Input.is_action_just_pressed("Z"):
+		undo()
+
+	if Input.is_action_pressed("Command") and Input.is_action_just_pressed("Y"):
+		redo()
+
 	if Input.is_action_pressed("Q") and $Camera2D.zoom > Vector2(1, 1):
 		$Camera2D.zoom -= Vector2(0.1, 0.1)
 	elif Input.is_action_pressed("W") and $Camera2D.zoom < max_zoom:
@@ -114,8 +125,21 @@ func _process(delta: float) -> void:
 
 # warning-ignore:unused_argument
 func _input(event: InputEvent) -> void:
+
 	if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_draw and state == pencil:
 		add_p()
+
+	elif Input.is_action_just_released("release"):
+		yield(get_tree(), "idle_frame")
+
+		var pixel_grp: PixelGroups = PixelGroups.new()
+		for pixel in temp_arr:
+			var wr = weakref(pixel)
+			if wr.get_ref():
+				pixel_grp.pixels.append(pixel)
+		undo_history.append(pixel_grp)
+		temp_arr.clear()
+
 	if Input.is_mouse_button_pressed(BUTTON_LEFT) and state == eraser:
 		for pixel in get_tree().get_nodes_in_group("Pixel"):
 			if grid_pos == pixel.global_position:
@@ -143,6 +167,7 @@ func add_p() -> void:
 # warning-ignore:return_value_discarded
 		connect("depth_symmetry", node, "depth_symmetry")
 		$Pixels.add_child(node)
+		temp_arr.append(node)
 
 func set_draw(value: bool) -> void:
 	can_draw = value
@@ -151,9 +176,41 @@ func set_draw(value: bool) -> void:
 #	else:
 #		$Pixel.modulate = "ff0000"
 
+func undo() -> void:
+	if undo_history.size() > 0:
+		var pixel_grp: PixelGroups = undo_history[undo_history.size()-1]
+		var n_pixel_grp: PixelGroups = PixelGroups.new()
+		for pixel in pixel_grp.pixels:
+			var pixel_dat: PixelData = PixelData.new()
+			pixel_dat.x = pixel.global_position.x
+			pixel_dat.y = pixel.global_position.y
+			pixel_dat.color = pixel.modulate
+			pixel_dat.depth = pixel.depth
+			pixel_dat.depth_symmetry = pixel.depth_symmetry
+			n_pixel_grp.pixels.append(pixel_dat)
+		redo_history.append(n_pixel_grp)
 
+		for pixel in pixel_grp.pixels:
+			var wr = weakref(pixel)
+			if wr.get_ref():
+				pixel.queue_free()
+		undo_history.pop_back()
 
-
+func redo() -> void:
+	if redo_history.size() > 0:
+		var pixel_grp: PixelGroups = redo_history[redo_history.size()-1]
+		for pixel in pixel_grp.pixels:
+			var node: Sprite = load("res://Pixel.tscn").instance()
+			node.global_position = Vector2(pixel.x, pixel.y)
+			node.modulate = pixel.color
+			node.depth = pixel.depth
+			node.depth_symmetry = pixel.depth_symmetry
+# warning-ignore:return_value_discarded
+			connect("depth", node, "depth")
+# warning-ignore:return_value_discarded
+			connect("depth_symmetry", node, "depth_symmetry")
+			$Pixels.add_child(node)
+		redo_history.pop_back()
 
 
 

@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "PixelData",
 "language": "GDScript",
 "path": "res://Pixel_dat.gd"
+}, {
+"base": "Node",
+"class": "PixelGroups",
+"language": "GDScript",
+"path": "res://Pixel_groups.gd"
 } ]
 _global_script_class_icons={
-"PixelData": ""
+"PixelData": "",
+"PixelGroups": ""
 }
 
 [application]
@@ -123,6 +129,21 @@ L={
 O={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":79,"unicode":0,"echo":false,"script":null)
+ ]
+}
+Z={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":90,"unicode":0,"echo":false,"script":null)
+ ]
+}
+release={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+Y={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":89,"unicode":0,"echo":false,"script":null)
  ]
 }
 
