@@ -14,7 +14,8 @@ signal depth_symmetry()
 enum{
 	pencil,
 	eraser,
-	color_picker
+	color_picker,
+	bucket
 }
 
 var state = pencil
@@ -98,6 +99,10 @@ func _process(delta: float) -> void:
 		$Pixel.show()
 		$Pixel_outline.hide()
 		state = pencil
+	if Input.is_action_just_pressed("B") and not is_saving:
+		$Pixel.show()
+		$Pixel_outline.hide()
+		state = bucket
 	if Input.is_action_just_pressed("O") and not is_saving:
 		$Pixel.hide()
 		$Pixel_outline.show()
@@ -173,6 +178,9 @@ func _input(event: InputEvent) -> void:
 			if pixel.global_position == grid_pos:
 				$UI._Color = pixel.modulate
 				$Pixel.modulate = pixel.modulate
+
+	if Input.is_action_just_pressed("release") and state == bucket:
+		bucket_tool()
 
 func add_p() -> void:
 	var pixels: Array = get_tree().get_nodes_in_group("Pixel")
@@ -284,7 +292,227 @@ func redo() -> void:
 					pixel.queue_free()
 			redo_history.pop_back()
 
+func bucket_tool() -> void:
 
+	var lenght: int = 0
+
+	if Global.drawing_board.x > Global.drawing_board.y:
+# warning-ignore:narrowing_conversion
+		lenght = Global.drawing_board.x
+	else:
+# warning-ignore:narrowing_conversion
+		lenght = Global.drawing_board.y
+
+	var all_pixels: Array = []
+	var pixels: Array = []
+	var h_pixels: Array = []
+	var v_pixels: Array = []
+
+	var pixel_grp: PixelGroups = PixelGroups.new()
+
+	for pixel in $Pixels.get_children():
+		pixels.append(pixel.global_position)
+
+	var starting_pos: Vector2 = grid_pos
+	var temp_pos: Vector2 = starting_pos
+
+	for i in lenght:
+		if not temp_pos.x > Global.drawing_board.x*64 and not temp_pos.y > Global.drawing_board.y*64 and not temp_pos.x < 64 and not temp_pos.y < 64 and not pixels.has(temp_pos):
+			var node: Sprite = load("res://Pixel.tscn").instance()
+			node.global_position = temp_pos
+			node.modulate = $UI._Color
+	# warning-ignore:return_value_discarded
+			connect("depth", node, "depth")
+	# warning-ignore:return_value_discarded
+			connect("depth_symmetry", node, "depth_symmetry")
+			$Pixels.add_child(node)
+			temp_pos = Vector2(temp_pos.x, temp_pos.y + 64)
+			h_pixels.append(node)
+			all_pixels.append(node)
+		else:
+			break
+
+	temp_pos = starting_pos
+
+	for i in lenght:
+		if not temp_pos.x > Global.drawing_board.x*64 and not temp_pos.y > Global.drawing_board.y*64 and not temp_pos.x < 64 and not temp_pos.y < 64 and not pixels.has(temp_pos):
+			var node: Sprite = load("res://Pixel.tscn").instance()
+			node.global_position = temp_pos
+			node.modulate = $UI._Color
+	# warning-ignore:return_value_discarded
+			connect("depth", node, "depth")
+	# warning-ignore:return_value_discarded
+			connect("depth_symmetry", node, "depth_symmetry")
+			$Pixels.add_child(node)
+			temp_pos = Vector2(temp_pos.x, temp_pos.y - 64)
+			h_pixels.append(node)
+			all_pixels.append(node)
+		else:
+			break
+
+	for pixel in h_pixels:
+		temp_pos = pixel.global_position
+		for i in lenght:
+			if not temp_pos.x > Global.drawing_board.x*64 and not temp_pos.y > Global.drawing_board.y*64 and not temp_pos.x < 64 and not temp_pos.y < 64 and not pixels.has(temp_pos):
+				var node: Sprite = load("res://Pixel.tscn").instance()
+				node.global_position = temp_pos
+				node.modulate = $UI._Color
+		# warning-ignore:return_value_discarded
+				connect("depth", node, "depth")
+		# warning-ignore:return_value_discarded
+				connect("depth_symmetry", node, "depth_symmetry")
+				$Pixels.add_child(node)
+				temp_pos = Vector2(temp_pos.x + 64, temp_pos.y)
+				v_pixels.append(node)
+				all_pixels.append(node)
+			else:
+				break
+
+		temp_pos = pixel.global_position
+
+		for i in lenght:
+			if not temp_pos.x > Global.drawing_board.x*64 and not temp_pos.y > Global.drawing_board.y*64 and not temp_pos.x < 64 and not temp_pos.y < 64 and not pixels.has(temp_pos):
+				var node: Sprite = load("res://Pixel.tscn").instance()
+				node.global_position = temp_pos
+				node.modulate = $UI._Color
+		# warning-ignore:return_value_discarded
+				connect("depth", node, "depth")
+		# warning-ignore:return_value_discarded
+				connect("depth_symmetry", node, "depth_symmetry")
+				$Pixels.add_child(node)
+				temp_pos = Vector2(temp_pos.x - 64, temp_pos.y)
+				v_pixels.append(node)
+				all_pixels.append(node)
+			else:
+				break
+
+	for pixel in v_pixels:
+		temp_pos = pixel.global_position
+		for i in lenght:
+			if not temp_pos.x > Global.drawing_board.x*64 and not temp_pos.y > Global.drawing_board.y*64 and not temp_pos.x < 64 and not temp_pos.y < 64 and not pixels.has(temp_pos):
+				var node: Sprite = load("res://Pixel.tscn").instance()
+				node.global_position = temp_pos
+				node.modulate = $UI._Color
+		# warning-ignore:return_value_discarded
+				connect("depth", node, "depth")
+		# warning-ignore:return_value_discarded
+				connect("depth_symmetry", node, "depth_symmetry")
+				$Pixels.add_child(node)
+				temp_pos = Vector2(temp_pos.x, temp_pos.y + 64)
+				all_pixels.append(node)
+			else:
+				break
+
+		temp_pos = pixel.global_position
+
+		for i in lenght:
+			if not temp_pos.x > Global.drawing_board.x*64 and not temp_pos.y > Global.drawing_board.y*64 and not temp_pos.x < 64 and not temp_pos.y < 64 and not pixels.has(temp_pos):
+				var node: Sprite = load("res://Pixel.tscn").instance()
+				node.global_position = temp_pos
+				node.modulate = $UI._Color
+		# warning-ignore:return_value_discarded
+				connect("depth", node, "depth")
+		# warning-ignore:return_value_discarded
+				connect("depth_symmetry", node, "depth_symmetry")
+				$Pixels.add_child(node)
+				temp_pos = Vector2(temp_pos.x, temp_pos.y - 64)
+				all_pixels.append(node)
+			else:
+				break
+
+	pixel_grp.pixels = all_pixels
+	pixel_grp.state = "Pencil"
+	undo_history.append(pixel_grp)
+
+
+
+
+
+#	var pixels_size: Array = []
+#
+#	for pixel in $Pixels.get_children():
+#		pixels_size.append(pixel.global_position)
+#
+#	var starting_point: Vector2 = grid_pos
+#	var fill_pos: Array = []
+#	var current_pos: int = 0
+#
+#	var node: Sprite = load("res://Pixel.tscn").instance()
+#	node.global_position = starting_point
+#	node.modulate = $UI._Color
+## warning-ignore:return_value_discarded
+#	connect("depth", node, "depth")
+## warning-ignore:return_value_discarded
+#	connect("depth_symmetry", node, "depth_symmetry")
+#	$Pixels.add_child(node)
+#	fill_pos.append(node)
+#
+#	for i in 10:
+#
+#		if current_pos < fill_pos.size():
+#
+#			if not pixels_size.has(Vector2(fill_pos[current_pos].global_position.x + 64, fill_pos[current_pos].global_position.y)):
+#				var n_node: Sprite = load("res://Pixel.tscn").instance()
+#				n_node.global_position = Vector2(fill_pos[current_pos].global_position.x + 64, fill_pos[current_pos].global_position.y)
+#				n_node.modulate = $UI._Color
+#			# warning-ignore:return_value_discarded
+#				connect("depth", n_node, "depth")
+#			# warning-ignore:return_value_discarded
+#				connect("depth_symmetry", n_node, "depth_symmetry")
+#				$Pixels.add_child(n_node)
+#				fill_pos.append(n_node)
+#			else:
+#				print("lol")
+#
+#			if not pixels_size.has(Vector2(fill_pos[current_pos].global_position.x - 64, fill_pos[current_pos].global_position.y)):
+#				var n_node: Sprite = load("res://Pixel.tscn").instance()
+#				n_node.global_position = Vector2(fill_pos[current_pos].global_position.x - 64, fill_pos[current_pos].global_position.y)
+#				n_node.modulate = $UI._Color
+#			# warning-ignore:return_value_discarded
+#				connect("depth", n_node, "depth")
+#			# warning-ignore:return_value_discarded
+#				connect("depth_symmetry", n_node, "depth_symmetry")
+#				$Pixels.add_child(n_node)
+#				fill_pos.append(n_node)
+#
+#			if not pixels_size.has(Vector2(fill_pos[current_pos].global_position.x, fill_pos[current_pos].global_position.y + 64)):
+#				var n_node: Sprite = load("res://Pixel.tscn").instance()
+#				n_node.global_position = Vector2(fill_pos[current_pos].global_position.x, fill_pos[current_pos].global_position.y + 64)
+#				n_node.modulate = $UI._Color
+#			# warning-ignore:return_value_discarded
+#				connect("depth", n_node, "depth")
+#			# warning-ignore:return_value_discarded
+#				connect("depth_symmetry", n_node, "depth_symmetry")
+#				$Pixels.add_child(n_node)
+#				fill_pos.append(n_node)
+#
+#			if not pixels_size.has(Vector2(fill_pos[current_pos].global_position.x, fill_pos[current_pos].global_position.y - 64)):
+#				var n_node: Sprite = load("res://Pixel.tscn").instance()
+#				n_node.global_position = Vector2(fill_pos[current_pos].global_position.x, fill_pos[current_pos].global_position.y - 64)
+#				n_node.modulate = $UI._Color
+#			# warning-ignore:return_value_discarded
+#				connect("depth", n_node, "depth")
+#			# warning-ignore:return_value_discarded
+#				connect("depth_symmetry", n_node, "depth_symmetry")
+#				$Pixels.add_child(n_node)
+#				fill_pos.append(n_node)
+#
+#			current_pos += 1
+#
+#		else:
+#			break
+
+#	for i in 100:
+#		if not temp_pos.x > Global.drawing_board.x*64 and not temp_pos.y > Global.drawing_board.y*64 and not temp_pos.x < 64 and not temp_pos.y < 64:
+#			var node: Sprite = load("res://Pixel.tscn").instance()
+#			node.global_position = starting_point
+#			node.modulate = $UI._Color
+#	# warning-ignore:return_value_discarded
+#			connect("depth", node, "depth")
+#	# warning-ignore:return_value_discarded
+#			connect("depth_symmetry", node, "depth_symmetry")
+#			$Pixels.add_child(node)
+#			temp_pos = Vector2(temp_pos.x + 64, temp_pos.y)
 
 
 
