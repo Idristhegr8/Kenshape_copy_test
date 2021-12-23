@@ -332,6 +332,11 @@ func bucket_tool() -> void:
 		else:
 			break
 
+	var max_h = h_pixels[0]
+	for h_pixel in h_pixels:
+		if max_h.global_position.y < h_pixel.global_position.y:
+			max_h = h_pixel
+
 	temp_pos = starting_pos
 
 	for i in lenght:
@@ -350,6 +355,11 @@ func bucket_tool() -> void:
 		else:
 			break
 
+	var min_h = h_pixels[0]
+	for h_pixel in h_pixels:
+		if min_h.global_position.y > h_pixel.global_position.y:
+			min_h = h_pixel
+
 	for pixel in h_pixels:
 		temp_pos = pixel.global_position
 		for i in lenght:
@@ -363,7 +373,8 @@ func bucket_tool() -> void:
 				connect("depth_symmetry", node, "depth_symmetry")
 				$Pixels.add_child(node)
 				temp_pos = Vector2(temp_pos.x + 64, temp_pos.y)
-				v_pixels.append(node)
+				if node.global_position.y == max_h.global_position.y or node.global_position.y == min_h.global_position.y:
+					v_pixels.append(node)
 				all_pixels.append(node)
 			else:
 				break
@@ -381,7 +392,8 @@ func bucket_tool() -> void:
 				connect("depth_symmetry", node, "depth_symmetry")
 				$Pixels.add_child(node)
 				temp_pos = Vector2(temp_pos.x - 64, temp_pos.y)
-				v_pixels.append(node)
+				if node.global_position.y == max_h.global_position.y or node.global_position.y == min_h.global_position.y:
+					v_pixels.append(node)
 				all_pixels.append(node)
 			else:
 				break
