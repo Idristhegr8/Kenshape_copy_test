@@ -39,6 +39,10 @@ Global="*res://Global.gd"
 window/size/width=640
 window/size/height=640
 
+[gdnative]
+
+singletons=[  ]
+
 [input]
 
 cam_right={
