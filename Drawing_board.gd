@@ -31,9 +31,7 @@ func _ready() -> void:
 		var extra_y: int = Global.drawing_board.y-10
 		for y in extra_y:
 			$UI.rect_size.y += 64
-#			$Camera2D.zoom.y += 0.1
 			$UI/ColorPicker.rect_scale.y += 0.1
-#			$UI/FileDialog.rect_scale.y += 0.1
 			$UI/ColorPicker.rect_global_position.y -= 23.1
 
 	if Global.drawing_board.x - 10 != 0:
@@ -41,9 +39,7 @@ func _ready() -> void:
 		var extra_x: int = Global.drawing_board.x-10
 		for x in extra_x:
 			$UI.rect_size.x += 64
-#			$Camera2D.zoom.x += 0.1
 			$UI/ColorPicker.rect_scale.x += 0.1
-#			$UI/FileDialog.rect_scale.x += 0.1
 			$UI/ColorPicker.rect_global_position.x -= 16.8
 
 	if Global.pixels != []:
@@ -147,7 +143,7 @@ func _input(event: InputEvent) -> void:
 			undo_history.append(pixel_grp)
 			temp_arr.clear()
 
-	if Input.is_mouse_button_pressed(BUTTON_LEFT) and state == eraser:
+	if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_draw and state == eraser:
 		for pixel in get_tree().get_nodes_in_group("Pixel"):
 			if grid_pos == pixel.global_position:
 				var pixel_dat: PixelData = PixelData.new()
@@ -173,13 +169,13 @@ func _input(event: InputEvent) -> void:
 			undo_history.append(pixel_grp)
 			temp_arr.clear()
 
-	if Input.is_mouse_button_pressed(BUTTON_LEFT) and state == color_picker:
+	if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_draw and state == color_picker:
 		for pixel in $Pixels.get_children():
 			if pixel.global_position == grid_pos:
 				$UI._Color = pixel.modulate
 				$Pixel.modulate = pixel.modulate
 
-	if Input.is_action_just_pressed("release") and state == bucket:
+	if Input.is_action_just_pressed("release") and can_draw and state == bucket:
 		bucket_tool()
 
 func add_p() -> void:
@@ -294,9 +290,18 @@ func redo() -> void:
 
 func bucket_tool() -> void:
 
+	var color_to_fill
+
+	for pixel in $Pixels.get_children():
+		if pixel.global_position == grid_pos:
+			color_to_fill = pixel.modulate
+			pixel.queue_free()
+			break
+
 	var node: Sprite = load("res://Pixel.tscn").instance()
 	node.global_position = grid_pos
 	node.modulate = $UI._Color
+	node.color_to_fill = color_to_fill
 	node.start_point = true
 # warning-ignore:return_value_discarded
 	connect("depth", node, "depth")

@@ -59,6 +59,7 @@ func _process(delta: float) -> void:
 
 func _on_ColorPicker_color_changed(color: Color) -> void:
 	_Color = color
+	get_parent().get_node("CanvasLayer/Tools/C/ColorRect").color = color
 
 func _on_P_pressed() -> void:
 	get_parent().state = get_parent().pencil
@@ -66,22 +67,32 @@ func _on_P_pressed() -> void:
 func _on_E_pressed() -> void:
 	get_parent().state = get_parent().eraser
 
+func _on_B_pressed() -> void:
+	get_parent().state = get_parent().bucket
+
+func _on_O_pressed() -> void:
+	get_parent().state = get_parent().color_picker
+
 func _on_C_pressed() -> void:
-	if $ColorPicker.visible:
+	if $ColorPicker.visible and mode == "Color":
 		$ColorPicker.hide()
 		get_tree().paused = false
 		get_parent().get_node("Pixel").modulate = _Color
 		get_parent().get_node("Pixel").show()
 	else:
+		mode = "Color"
 		get_parent().get_node("Pixel").hide()
 		$ColorPicker.show()
 		get_tree().paused = true
 
 func _on_D_pressed() -> void:
-	if get_tree().paused:
+	if get_tree().paused and mode == "Depth":
+		get_parent().emit_signal("depth", false)
 		get_tree().paused = false
 		get_parent().get_node("Pixel").show()
 	else:
+		mode = "Depth"
+		get_parent().emit_signal("depth", true)
 		get_tree().paused = true
 		get_parent().get_node("Pixel").hide()
 
@@ -159,6 +170,12 @@ func Load(file_path: String) -> void:
 			get_parent().get_node("Camera2D").zoom.x += 0.1
 			$ColorPicker.rect_scale.x += 0.1
 			$ColorPicker.rect_global_position.x -= 16.8
+
+
+
+
+
+
 
 
 

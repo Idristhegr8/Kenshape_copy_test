@@ -5,6 +5,7 @@ var grid_pos: Vector2
 var color: Color
 var depth_symmetry: bool = false setget set_depth_symmetry
 var start_point: bool = false
+var color_to_fill
 var pixel_grp: PixelGroups = PixelGroups.new()
 
 func _on_Depth_pressed() -> void:
@@ -54,39 +55,79 @@ func _ready() -> void:
 		var queue: Array = []
 		var checked: Array = []
 		var pixels: Array = []
-		queue.append(global_position)
+		var all_pixels: Array = []
+		queue.append(self)
 		for pixel in get_parent().get_children():
+			all_pixels.append(pixel)
 			pixels.append(pixel.global_position)
 
 		while queue.size() != 0:
 			if not checked.has(queue[0]):
-				var curr_pixel = queue[0]
-				if not pixels.has(curr_pixel + directions[0]) and not (curr_pixel + directions[0]).x > Global.drawing_board.x*64 and not (curr_pixel + directions[0]).y > Global.drawing_board.y*64 and not (curr_pixel + directions[0]).x < 64 and not (curr_pixel + directions[0]).y < 64:
-					add_pixel(curr_pixel + directions[0], modulate)
-					queue.append(curr_pixel + directions[0])
-					pixels.append(curr_pixel + directions[0])
-#					have_to_fill.append(curr_pixel + directions[0])
+				var curr_pixel: Sprite = queue[0]
 
-				if not pixels.has(curr_pixel + directions[1]) and not (curr_pixel + directions[1]).x > Global.drawing_board.x*64 and not (curr_pixel + directions[1]).y > Global.drawing_board.y*64 and not (curr_pixel + directions[1]).x < 64 and not (curr_pixel + directions[1]).y < 64:
-					add_pixel(curr_pixel + directions[1], modulate)
-					queue.append(curr_pixel + directions[1])
-					pixels.append(curr_pixel + directions[1])
-#					queue.append(curr_pixel + directions[1])
-#					have_to_fill.append(curr_pixel + directions[1])
+				if not pixels.has(curr_pixel.global_position + directions[0]) and not (curr_pixel.global_position + directions[0]).x > Global.drawing_board.x*64 and not (curr_pixel.global_position + directions[0]).y > Global.drawing_board.y*64 and not (curr_pixel.global_position + directions[0]).x < 64 and not (curr_pixel.global_position + directions[0]).y < 64:
+					var pixel: Sprite = add_pixel(curr_pixel.global_position + directions[0], modulate)
+					queue.append(pixel)
+					pixels.append(curr_pixel.global_position + directions[0])
+					all_pixels.append(pixel)
+				elif color_to_fill != null and all_pixels[pixels.find(curr_pixel.global_position + directions[0])].modulate == color_to_fill and pixels.has(curr_pixel.global_position + directions[0]):
+					var p = all_pixels[pixels.find(curr_pixel.global_position + directions[0])]
+					p.modulate = modulate
+					queue.append(p)
+					pixels.append(curr_pixel.global_position + directions[0])
+					all_pixels.append(p)
+					pixel_grp.pixels.append(p)
 
-				if not pixels.has(curr_pixel + directions[2]) and not (curr_pixel + directions[2]).x > Global.drawing_board.x*64 and not (curr_pixel + directions[2]).y > Global.drawing_board.y*64 and not (curr_pixel + directions[2]).x < 64 and not (curr_pixel + directions[2]).y < 64:
-					add_pixel(curr_pixel + directions[2], modulate)
-					queue.append(curr_pixel + directions[2])
-					pixels.append(curr_pixel + directions[2])
-#					queue.append(curr_pixel + directions[2])
-#					have_to_fill.append(curr_pixel + directions[2])
+				if not pixels.has(curr_pixel.global_position + directions[1]) and not (curr_pixel.global_position + directions[1]).x > Global.drawing_board.x*64 and not (curr_pixel.global_position + directions[1]).y > Global.drawing_board.y*64 and not (curr_pixel.global_position + directions[1]).x < 64 and not (curr_pixel.global_position + directions[1]).y < 64:
+					var pixel: Sprite = add_pixel(curr_pixel.global_position + directions[1], modulate)
+					queue.append(pixel)
+					pixels.append(curr_pixel.global_position + directions[1])
+					all_pixels.append(pixel)
+				elif color_to_fill != null and all_pixels[pixels.find(curr_pixel.global_position + directions[1])].modulate == color_to_fill and pixels.has(curr_pixel.global_position + directions[1]):
+					var p = all_pixels[pixels.find(curr_pixel.global_position + directions[1])]
+					p.modulate = modulate
+					queue.append(p)
+					pixels.append(curr_pixel.global_position + directions[1])
+					all_pixels.append(p)
+					pixel_grp.pixels.append(p)
+#					all_pixels[pixels.find(curr_pixel.global_position + directions[1])].queue_free()
+#					var pixel: Sprite = add_pixel(curr_pixel.global_position + directions[1], modulate)
+#					queue.append(pixel)
+#					pixels.append(curr_pixel.global_position + directions[1])
+#					all_pixels.append(pixel)
+#					have_to_fill.append(curr_pixel.global_position + directions[1])
 
-				if not pixels.has(curr_pixel + directions[3]) and not (curr_pixel + directions[3]).x > Global.drawing_board.x*64 and not (curr_pixel + directions[3]).y > Global.drawing_board.y*64 and not (curr_pixel + directions[3]).x < 64 and not (curr_pixel + directions[3]).y < 64:
-					add_pixel(curr_pixel + directions[3], modulate)
-					queue.append(curr_pixel + directions[3])
-					pixels.append(curr_pixel + directions[3])
-#					queue.append(curr_pixel + directions[3])
-#					have_to_fill.append(curr_pixel + directions[3])
+				if not pixels.has(curr_pixel.global_position + directions[2]) and not (curr_pixel.global_position + directions[2]).x > Global.drawing_board.x*64 and not (curr_pixel.global_position + directions[2]).y > Global.drawing_board.y*64 and not (curr_pixel.global_position + directions[2]).x < 64 and not (curr_pixel.global_position + directions[2]).y < 64:
+					var pixel: Sprite = add_pixel(curr_pixel.global_position + directions[2], modulate)
+					queue.append(pixel)
+					pixels.append(curr_pixel.global_position + directions[2])
+					all_pixels.append(pixel)
+				elif pixels.has(curr_pixel.global_position + directions[2]) and all_pixels[pixels.find(curr_pixel.global_position + directions[2])].modulate == color_to_fill:
+					var p = all_pixels[pixels.find(curr_pixel.global_position + directions[2])]
+					p.modulate = modulate
+					queue.append(p)
+					pixels.append(curr_pixel.global_position + directions[2])
+					all_pixels.append(p)
+					pixel_grp.pixels.append(p)
+
+				if not pixels.has(curr_pixel.global_position + directions[3]) and not (curr_pixel.global_position + directions[3]).x > Global.drawing_board.x*64 and not (curr_pixel.global_position + directions[3]).y > Global.drawing_board.y*64 and not (curr_pixel.global_position + directions[3]).x < 64 and not (curr_pixel.global_position + directions[3]).y < 64:
+					var pixel: Sprite = add_pixel(curr_pixel.global_position + directions[3], modulate)
+					queue.append(pixel)
+					pixels.append(curr_pixel.global_position + directions[3])
+					all_pixels.append(pixel)
+				elif pixels.has(curr_pixel.global_position + directions[3]) and all_pixels[pixels.find(curr_pixel.global_position + directions[3])].modulate == color_to_fill:
+					var p = all_pixels[pixels.find(curr_pixel.global_position + directions[3])]
+					p.modulate = modulate
+					queue.append(p)
+					pixels.append(curr_pixel.global_position + directions[3])
+					all_pixels.append(p)
+					pixel_grp.pixels.append(p)
+#					all_pixels[pixels.find(curr_pixel.global_position + directions[3])].queue_free()
+#					var pixel: Sprite = add_pixel(curr_pixel.global_position + directions[3], modulate)
+#					queue.append(pixel)
+#					pixels.append(curr_pixel.global_position + directions[3])
+#					all_pixels.append(pixel)
+#					have_to_fill.append(curr_pixel.global_position + directions[3])
 
 				queue.pop_front()
 				checked.append(curr_pixel)
@@ -96,15 +137,13 @@ func _ready() -> void:
 		pixel_grp.state = "Pencil"
 		get_parent().get_parent().undo_history.append(pixel_grp)
 
-#		for pos in have_to_fill:
-#			add_pixel(pos)
-
-func add_pixel(pos: Vector2, color: Color) -> void:
+func add_pixel(pos: Vector2, _color: Color) -> Node2D:
 	var pixel: Sprite = load("res://Pixel.tscn").instance()
 	pixel.global_position = pos
-	pixel.modulate = color
-	get_parent().call_deferred("add_child", pixel)
+	pixel.modulate = _color
+	get_parent().add_child(pixel)
 	pixel_grp.pixels.append(pixel)
+	return pixel
 
 
 
