@@ -225,8 +225,7 @@ func undo() -> void:
 					pixel.queue_free()
 			undo_history.pop_back()
 
-		else:
-			pixel_grp = undo_history[undo_history.size()-1]
+		elif pixel_grp.state == "Eraser":
 			var n_pixel_grp: PixelGroups = PixelGroups.new()
 			n_pixel_grp.state = pixel_grp.state
 			for pixel in pixel_grp.pixels:
@@ -244,7 +243,32 @@ func undo() -> void:
 			undo_history.pop_back()
 			redo_history.append(n_pixel_grp)
 
-
+		elif pixel_grp.state == "Fill":
+			var n_pixel_grp: PixelGroups = PixelGroups.new()
+			n_pixel_grp.state = pixel_grp.state
+			var pixels: Array = []
+			var pixels_pos: Array = []
+			for pixel in $Pixels.get_children():
+				pixels.append(pixel)
+				pixels_pos.append(pixel.global_position)
+			for pixel in pixel_grp.pixels:
+				if typeof(pixel) == TYPE_OBJECT:
+					var wr = weakref(pixel)
+					if wr.get_ref():
+						var pixel_dat: PixelData = PixelData.new()
+						pixel_dat.x = pixel.global_position.x
+						pixel_dat.y = pixel.global_position.y
+						pixel_dat.color = pixel.modulate
+						pixel_dat.depth = pixel.depth
+						pixel_dat.depth_symmetry = pixel.depth_symmetry
+						n_pixel_grp.pixels.append(pixel_dat)
+						pixel.queue_free()
+				else:
+					n_pixel_grp.last_color = pixels[pixels_pos.find(pixel)].modulate
+					pixels[pixels_pos.find(pixel)].modulate = pixel_grp.last_color
+					n_pixel_grp.pixels.append(pixel)
+			redo_history.append(n_pixel_grp)
+			undo_history.pop_back()
 
 func redo() -> void:
 	if redo_history.size() > 0:
@@ -266,8 +290,7 @@ func redo() -> void:
 				n_pixel_grp.pixels.append(node)
 			redo_history.pop_back()
 			undo_history.append(n_pixel_grp)
-		else:
-			pixel_grp = redo_history[redo_history.size()-1]
+		elif pixel_grp.state == "Eraser":
 			var n_pixel_grp: PixelGroups = PixelGroups.new()
 			n_pixel_grp.state = pixel_grp.state
 			for pixel in pixel_grp.pixels:
@@ -286,6 +309,34 @@ func redo() -> void:
 				var wr = weakref(pixel)
 				if wr.get_ref():
 					pixel.queue_free()
+			redo_history.pop_back()
+
+		elif pixel_grp.state == "Fill":
+			var n_pixel_grp: PixelGroups = PixelGroups.new()
+			var pixels: Array = []
+			var pixels_pos: Array = []
+			for pixel in $Pixels.get_children():
+				pixels.append(pixel)
+				pixels_pos.append(pixel.global_position)
+			n_pixel_grp.state = pixel_grp.state
+			for pixel in pixel_grp.pixels:
+				if typeof(pixel) == TYPE_VECTOR2:
+					n_pixel_grp.last_color = pixels[pixels_pos.find(pixel)].modulate
+					pixels[pixels_pos.find(pixel)].modulate = pixel_grp.last_color
+					n_pixel_grp.pixels.append(pixels[pixels_pos.find(pixel)].global_position)
+				else:
+					var node: Sprite = load("res://Pixel.tscn").instance()
+					node.global_position = Vector2(pixel.x, pixel.y)
+					node.modulate = pixel.color
+					node.depth = pixel.depth
+					node.depth_symmetry = pixel.depth_symmetry
+		# warning-ignore:return_value_discarded
+					connect("depth", node, "depth")
+		# warning-ignore:return_value_discarded
+					connect("depth_symmetry", node, "depth_symmetry")
+					$Pixels.add_child(node)
+					n_pixel_grp.pixels.append(node)
+			undo_history.append(n_pixel_grp)
 			redo_history.pop_back()
 
 func bucket_tool() -> void:

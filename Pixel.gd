@@ -76,7 +76,7 @@ func _ready() -> void:
 					queue.append(p)
 					pixels.append(curr_pixel.global_position + directions[0])
 					all_pixels.append(p)
-					pixel_grp.pixels.append(p)
+					pixel_grp.pixels.append(p.global_position)
 
 				if not pixels.has(curr_pixel.global_position + directions[1]) and not (curr_pixel.global_position + directions[1]).x > Global.drawing_board.x*64 and not (curr_pixel.global_position + directions[1]).y > Global.drawing_board.y*64 and not (curr_pixel.global_position + directions[1]).x < 64 and not (curr_pixel.global_position + directions[1]).y < 64:
 					var pixel: Sprite = add_pixel(curr_pixel.global_position + directions[1], modulate)
@@ -89,7 +89,7 @@ func _ready() -> void:
 					queue.append(p)
 					pixels.append(curr_pixel.global_position + directions[1])
 					all_pixels.append(p)
-					pixel_grp.pixels.append(p)
+					pixel_grp.pixels.append(p.global_position)
 #					all_pixels[pixels.find(curr_pixel.global_position + directions[1])].queue_free()
 #					var pixel: Sprite = add_pixel(curr_pixel.global_position + directions[1], modulate)
 #					queue.append(pixel)
@@ -108,7 +108,7 @@ func _ready() -> void:
 					queue.append(p)
 					pixels.append(curr_pixel.global_position + directions[2])
 					all_pixels.append(p)
-					pixel_grp.pixels.append(p)
+					pixel_grp.pixels.append(p.global_position)
 
 				if not pixels.has(curr_pixel.global_position + directions[3]) and not (curr_pixel.global_position + directions[3]).x > Global.drawing_board.x*64 and not (curr_pixel.global_position + directions[3]).y > Global.drawing_board.y*64 and not (curr_pixel.global_position + directions[3]).x < 64 and not (curr_pixel.global_position + directions[3]).y < 64:
 					var pixel: Sprite = add_pixel(curr_pixel.global_position + directions[3], modulate)
@@ -121,7 +121,7 @@ func _ready() -> void:
 					queue.append(p)
 					pixels.append(curr_pixel.global_position + directions[3])
 					all_pixels.append(p)
-					pixel_grp.pixels.append(p)
+					pixel_grp.pixels.append(p.global_position)
 #					all_pixels[pixels.find(curr_pixel.global_position + directions[3])].queue_free()
 #					var pixel: Sprite = add_pixel(curr_pixel.global_position + directions[3], modulate)
 #					queue.append(pixel)
@@ -134,7 +134,8 @@ func _ready() -> void:
 			else:
 				queue.pop_front()
 
-		pixel_grp.state = "Pencil"
+		pixel_grp.state = "Fill"
+		pixel_grp.last_color = color_to_fill
 		get_parent().get_parent().undo_history.append(pixel_grp)
 
 func add_pixel(pos: Vector2, _color: Color) -> Node2D:
