@@ -31,7 +31,7 @@ func _on_Depth_symmetry_pressed() -> void:
 		self.depth_symmetry = false
 	else:
 		self.depth_symmetry = true
-	print(str(depth_symmetry))
+#	print(str(depth_symmetry))
 
 # warning-ignore:function_conflicts_variable
 func depth(value: bool) -> void:
@@ -142,6 +142,10 @@ func add_pixel(pos: Vector2, _color: Color) -> Node2D:
 	var pixel: Sprite = load("res://Pixel.tscn").instance()
 	pixel.global_position = pos
 	pixel.modulate = _color
+# warning-ignore:return_value_discarded
+	get_parent().get_parent().connect("depth", pixel, "depth")
+# warning-ignore:return_value_discarded
+	get_parent().get_parent().connect("depth_symmetry", pixel, "depth_symmetry")
 	get_parent().add_child(pixel)
 	pixel_grp.pixels.append(pixel)
 	return pixel

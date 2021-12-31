@@ -36,6 +36,8 @@ func _ready() -> void:
 		else:
 			$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
 
+	$File_name.text = Global.file_name
+
 # warning-ignore:shadowed_variable
 func get_files(path: String) -> Array:
 
@@ -119,6 +121,7 @@ func _on_Create_file_pressed() -> void:
 
 	# warning-ignore:return_value_discarded
 		file.open_encrypted_with_pass(path + "/" + $File_name.text + path_extension, File.WRITE, get_parent().password)
+		Global.file_name = $File_name.text
 		file.store_line(to_json(data))
 		file.close()
 

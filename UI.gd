@@ -115,8 +115,9 @@ func _on_Button_mouse_entered() -> void:
 	get_parent().get_node("Pixel").hide()
 
 func _on_Button_mouse_exited() -> void:
-	get_parent().can_draw = true
-	get_parent().get_node("Pixel").show()
+	if not get_tree().paused:
+		get_parent().can_draw = true
+		get_parent().get_node("Pixel").show()
 
 func Load(file_path: String) -> void:
 
@@ -125,51 +126,59 @@ func Load(file_path: String) -> void:
 
 	var data: Dictionary
 
+	var ok: int = 1
+
 	var file: File = File.new()
 	if file_path.ends_with(".pt3d") and file.file_exists(file_path):
-# warning-ignore:return_value_discarded
-		file.open_encrypted_with_pass(file_path, File.READ, password)
-		data = parse_json(file.get_line())
-		file.close()
+		if file.open_encrypted_with_pass(file_path, File.READ, password) == OK:
+			ok = OK
+			data = parse_json(file.get_line())
+			file.close()
+			Global.drawing_board.x = data.settings.x
+			Global.drawing_board.y = data.settings.y
+		else:
+			$Error.dialog_text = "Error: Could Not Open The File!"
+			$Error.popup_centered()
+			print("Error: Could not open the File!")
 
+	if ok == OK:
 		Global.drawing_board.x = data.settings.x
 		Global.drawing_board.y = data.settings.y
-	else:
-		$Error.dialog_text = "Error: Could Not Open The File!"
-		$Error.popup_centered()
-		print("Error: Could not open the File!")
 #	print(str(canvas_data))
 
-	for pixel in data.pixel_data:
-		var node: Sprite = load("res://Pixel.tscn").instance()
-		node.global_position = Vector2(pixel[0], pixel[1])
-		node.modulate = pixel[2]
-		node.depth = pixel[3]
-		node.depth_symmetry = pixel[4]
-# warning-ignore:return_value_discarded
-		get_parent().connect("depth", node, "depth")
-# warning-ignore:return_value_discarded
-		get_parent().connect("depth_symmetry", node, "depth_symmetry")
-		get_parent().get_node("Pixels").add_child(node)
+	if ok == OK:
+		for pixel in data.pixel_data:
+			var node: Sprite = load("res://Pixel.tscn").instance()
+			node.global_position = Vector2(pixel[0], pixel[1])
+			node.modulate = pixel[2]
+			node.depth = pixel[3]
+			node.depth_symmetry = pixel[4]
+	# warning-ignore:return_value_discarded
+			get_parent().connect("depth", node, "depth")
+	# warning-ignore:return_value_discarded
+			get_parent().connect("depth_symmetry", node, "depth_symmetry")
+			get_parent().get_node("Pixels").add_child(node)
 
-	if Global.drawing_board.y - 10 != 0:
-# warning-ignore:narrowing_conversion
-		var extra_y: int = Global.drawing_board.y-10
-		for y in extra_y:
-			rect_size.y += 64
-			get_parent().get_node("Camera2D").zoom.y += 0.1
-			$ColorPicker.rect_scale.y += 0.1
-			$ColorPicker.rect_global_position.y -= 23.1
+		get_parent()._ready()
 
-	if Global.drawing_board.x - 10 != 0:
-		get_parent().get_node("BG").rect_size = Global.drawing_board
-# warning-ignore:narrowing_conversion
-		var extra_x: int = Global.drawing_board.x-10
-		for x in extra_x:
-			rect_size.x += 64
-			get_parent().get_node("Camera2D").zoom.x += 0.1
-			$ColorPicker.rect_scale.x += 0.1
-			$ColorPicker.rect_global_position.x -= 16.8
+#	if Global.drawing_board.y - 10 != 0:
+## warning-ignore:narrowing_conversion
+#		var extra_y: int = Global.drawing_board.y-10
+#		for y in extra_y:
+#			rect_size.y += 64
+#			get_parent().get_node("Camera2D").zoom.y += 0.1
+#			$ColorPicker.rect_scale.y += 0.1
+#			$ColorPicker.rect_global_position.y -= 23.1
+#
+#	if Global.drawing_board.x - 10 != 0:
+#		get_parent().get_node("BG").rect_size = Global.drawing_board
+## warning-ignore:narrowing_conversion
+#		var extra_x: int = Global.drawing_board.x-10
+#		for x in extra_x:
+#			rect_size.x += 64
+#			get_parent().get_node("Camera2D").zoom.x += 0.1
+#			$ColorPicker.rect_scale.x += 0.1
+#			$ColorPicker.rect_global_position.x -= 16.8
 
 
 

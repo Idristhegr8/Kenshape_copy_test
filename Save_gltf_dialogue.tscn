@@ -1,0 +1,247 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Save_gltf_dialogue.gd" type="Script" id=1]
+[ext_resource path="res://uipack_fixed/PNG/grey_arrowUpWhite.png" type="Texture" id=2]
+[ext_resource path="res://uipack_fixed/Font/kenvector_future_thin.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://uipack_fixed/PNG/grey_button07.png" type="Texture" id=4]
+[ext_resource path="res://uipack_fixed/PNG/grey_crossWhite.png" type="Texture" id=5]
+[ext_resource path="res://uipack_fixed/PNG/grey_button04.png" type="Texture" id=6]
+[ext_resource path="res://kenvector_future_thin.ttf" type="DynamicFontData" id=7]
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.172549, 0.164706, 0.196078, 1 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 12
+font_data = ExtResource( 7 )
+
+[sub_resource type="StyleBoxTexture" id=7]
+texture = ExtResource( 6 )
+region_rect = Rect2( 0, 0, 190, 45 )
+modulate_color = Color( 0.172549, 0.164706, 0.196078, 1 )
+
+[sub_resource type="StyleBoxTexture" id=4]
+texture = ExtResource( 4 )
+region_rect = Rect2( 0, 0, 49, 49 )
+modulate_color = Color( 0.172549, 0.164706, 0.196078, 1 )
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 15, 10 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 20
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 3 )
+
+[node name="Save_image_dialogue" type="Control"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -223.0
+margin_top = -143.5
+margin_right = 223.0
+margin_bottom = 143.5
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sort_bg" type="Label" parent="."]
+anchor_right = 1.0
+margin_top = 26.0
+margin_bottom = 45.0
+custom_styles/normal = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Button" parent="Sort_bg"]
+margin_right = 223.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 218, 0 )
+custom_fonts/font = SubResource( 6 )
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/normal = SubResource( 7 )
+text = "Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Date" type="Button" parent="Sort_bg"]
+margin_left = 223.0
+margin_right = 446.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 218, 0 )
+custom_fonts/font = SubResource( 6 )
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/normal = SubResource( 7 )
+text = "Date"
+
+[node name="FilesAndFolders" type="ItemList" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -223.0
+margin_top = -98.5
+margin_right = 223.0
+margin_bottom = 119.5
+allow_reselect = true
+allow_rmb_select = true
+icon_scale = 0.5
+
+[node name="Folder" type="LineEdit" parent="."]
+anchor_right = 1.0
+margin_left = 25.0
+margin_right = -54.0
+margin_bottom = 26.0
+placeholder_text = "Enter the name of the folder if you want to create one"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cancel_Saving" type="Button" parent="Folder"]
+margin_left = -25.0
+margin_right = 1.0
+margin_bottom = 26.0
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Folder/Cancel_Saving"]
+modulate = Color( 0.52549, 0.52549, 0.52549, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -6.0
+margin_top = -6.0
+margin_right = 6.0
+margin_bottom = 6.0
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Up" type="Button" parent="Folder"]
+anchor_left = 0.967
+anchor_top = 0.5
+anchor_right = 0.967
+anchor_bottom = 0.5
+margin_left = -7.03104
+margin_top = -10.0
+margin_right = 5.96896
+margin_bottom = 4.0
+rect_min_size = Vector2( 13, 13 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 1 )
+custom_styles/normal = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Create_folder" type="Button" parent="Folder"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 53.0
+text = "Create"
+
+[node name="File_name" type="LineEdit" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -26.0
+margin_right = -53.0
+margin_bottom = -2.0
+placeholder_text = "Enter the name of the file to save"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Create_file" type="Button" parent="File_name"]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 53.0
+text = "Create"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="File_exists_popup" type="Control" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -223.0
+margin_top = -143.5
+margin_right = 223.0
+margin_bottom = 143.5
+
+[node name="Bg" type="ColorRect" parent="File_exists_popup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.215686, 0.215686, 0.215686, 1 )
+
+[node name="Label" type="Label" parent="File_exists_popup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -100.0
+custom_fonts/font = SubResource( 2 )
+text = "A file with this name already exists!"
+align = 1
+valign = 1
+
+[node name="Options" type="Control" parent="File_exists_popup"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -223.0
+margin_top = -62.0
+margin_right = 223.0
+margin_bottom = -22.0
+
+[node name="Cancel" type="Button" parent="File_exists_popup/Options"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 25.0
+margin_top = -20.0
+margin_right = 130.0
+margin_bottom = 20.0
+custom_fonts/font = SubResource( 3 )
+text = "Cancel"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Overwrite" type="Button" parent="File_exists_popup/Options"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -130.0
+margin_top = -20.0
+margin_right = -25.0
+margin_bottom = 20.0
+custom_fonts/font = SubResource( 3 )
+text = "Overwrite"
+
+[connection signal="pressed" from="Sort_bg/Name" to="." method="_on_Name_pressed"]
+[connection signal="pressed" from="Sort_bg/Date" to="." method="_on_Date_pressed"]
+[connection signal="item_selected" from="FilesAndFolders" to="." method="_on_FilesAndFolders_item_selected"]
+[connection signal="pressed" from="Folder/Cancel_Saving" to="." method="_on_Cancel_Saving_pressed"]
+[connection signal="pressed" from="Folder/Up" to="." method="_on_Up_pressed"]
+[connection signal="pressed" from="Folder/Create_folder" to="." method="_on_Create_folder_pressed"]
+[connection signal="pressed" from="File_name/Create_file" to="." method="_on_Create_file_pressed"]
+[connection signal="pressed" from="File_exists_popup/Options/Cancel" to="." method="_on_Cancel_pressed"]
+[connection signal="pressed" from="File_exists_popup/Options/Overwrite" to="." method="_on_Overwrite_pressed"]

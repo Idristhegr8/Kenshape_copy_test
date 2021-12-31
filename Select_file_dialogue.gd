@@ -8,6 +8,21 @@ var path: String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
 var parent: Control
 
 func _ready() -> void:
+
+	if Global.drawing_board.y - 10 != 0:
+# warning-ignore:narrowing_conversion
+		var extra_y: int = Global.drawing_board.y-10
+		for y in extra_y:
+			rect_scale.y += 0.1
+			rect_position.y -= 14.35
+
+	if Global.drawing_board.x - 10 != 0:
+# warning-ignore:narrowing_conversion
+		var extra_x: int = Global.drawing_board.x-10
+		for x in extra_x:
+			rect_scale.x += 0.1
+			rect_position.x -= 22.3
+
 	parent = get_parent()
 	var files: Array = []
 	files = get_files(path)
@@ -118,6 +133,7 @@ func change_file():
 
 func _on_Select_pressed() -> void:
 	path = path + "/" + _files[index_selected]
+	Global.file_name = _files[index_selected].trim_suffix(".pt3d")
 	print(path)
 	parent.Load(path)
 	queue_free()

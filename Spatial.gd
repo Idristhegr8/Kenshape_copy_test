@@ -8,11 +8,17 @@ func _ready() -> void:
 	else:
 		$CameraGimbal/InnerGimbal/Camera.translation.z = Global.drawing_board.y
 
+	
+
 	for pixel in Global.pixels:
 #		if x_pixels.has(pixel.x/64):
 #			add_b(-pixel.x, pixel.y)
 #		else:
-			add_b((pixel.x/64-((Global.drawing_board.x/2)-1))*64, (pixel.y/64-((Global.drawing_board.y/2)-1))*64, pixel.color, pixel.depth, pixel.depth_symmetry)
+		add_b((pixel.x/64-((Global.drawing_board.x/2)-1))*64, (pixel.y/64-((Global.drawing_board.y/2)-1))*64, pixel.color, pixel.depth, pixel.depth_symmetry)
+
+#	var ps = PackedScene.new()
+#	ps.pack(self)
+#	ResourceSaver.save("res://test.tscn", ps)
 
 #		#symetry
 #		add_b(-pixel.x, pixel.y)
@@ -29,7 +35,7 @@ func _ready() -> void:
 #		$Meshes.add_child(node)
 
 func add_b(x: int, y: int, color: Color, depth: int, depth_symmetry: bool) -> void:
-	var node: CSGMesh = load("res://CSGMesh.tscn").instance()
+	var node: MeshInstance = load("res://MeshInstance.tscn").instance()
 # warning-ignore:integer_division
 # warning-ignore:integer_division
 	node.translation = Vector3(x/64, y/64, 0)
@@ -37,12 +43,13 @@ func add_b(x: int, y: int, color: Color, depth: int, depth_symmetry: bool) -> vo
 	material.albedo_color = color
 	node.set_material_override(material)
 	$Meshes.add_child(node)
+	node.owner = self
 
 	if depth > 1:
 # warning-ignore:integer_division
 		if not depth_symmetry:
 			for num in depth-1:
-				var d_node: CSGMesh = load("res://CSGMesh.tscn").instance()
+				var d_node: MeshInstance = load("res://MeshInstance.tscn").instance()
 				d_node.translation = Vector3(node.translation.x, node.translation.y, num + 1)
 				d_node.set_material_override(material)
 				$Meshes.add_child(d_node)
@@ -50,12 +57,12 @@ func add_b(x: int, y: int, color: Color, depth: int, depth_symmetry: bool) -> vo
 # warning-ignore:integer_division
 			var n_depth: int = (depth-1)/2
 			for num in n_depth:
-				var d_node: CSGMesh = load("res://CSGMesh.tscn").instance()
+				var d_node: MeshInstance = load("res://MeshInstance.tscn").instance()
 				d_node.translation = Vector3(node.translation.x, node.translation.y, num + 1)
 				d_node.set_material_override(material)
 				$Meshes.add_child(d_node)
 			for num in n_depth:
-				var d_node: CSGMesh = load("res://CSGMesh.tscn").instance()
+				var d_node: MeshInstance = load("res://MeshInstance.tscn").instance()
 				d_node.translation = Vector3(node.translation.x, node.translation.y, -(num + 1))
 				d_node.set_material_override(material)
 				$Meshes.add_child(d_node)
@@ -65,4 +72,22 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("B"):
 # warning-ignore:return_value_discarded
 		get_tree().change_scene("res://Drawing_board.tscn")
+	if Input.is_action_pressed("Command") and Input.is_action_just_pressed("S"):
+		var save_dialogue = load("res://Save_gltf_dialogue.tscn").instance()
+		add_child(save_dialogue)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
