@@ -45,7 +45,10 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("Command") and Input.is_action_just_pressed("S"):
 		if not get_tree().paused:
 			var save_dialogue = load("res://Save_image_dialogue.tscn").instance()
-			add_child(save_dialogue)
+#			add_child(save_dialogue)
+			save_dialogue.parent = self
+			get_parent().get_node("CanvasLayer").add_child(save_dialogue)
+			get_parent().get_node("CanvasLayer").move_child(save_dialogue, 0)
 			get_parent().is_saving = true
 			get_tree().paused = true
 			get_parent().get_node("Pixel").hide()
@@ -53,7 +56,9 @@ func _process(delta: float) -> void:
 	if Input.is_action_pressed("Command") and Input.is_action_just_pressed("L") and not get_parent().is_saving:
 		if not get_tree().paused:
 			var save_dialogue = load("res://Select_file_dialogue.tscn").instance()
-			add_child(save_dialogue)
+			save_dialogue.parent = self
+			get_parent().get_node("CanvasLayer").add_child(save_dialogue)
+			get_parent().get_node("CanvasLayer").move_child(save_dialogue, 0)
 			get_tree().paused = true
 			get_parent().get_node("Pixel").hide()
 
@@ -109,6 +114,13 @@ func _on_3D_pressed() -> void:
 
 	# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://Spatial.tscn")
+
+func _on_LineEdit_text_changed(new_text: String) -> void:
+	if int(new_text) <= 5:
+		get_parent().depth = int(new_text)
+
+func _on_CheckBox_toggled(button_pressed: bool) -> void:
+	get_parent().symmetry = button_pressed
 
 func _on_Button_mouse_entered() -> void:
 	get_parent().can_draw = false
@@ -179,6 +191,12 @@ func Load(file_path: String) -> void:
 #			get_parent().get_node("Camera2D").zoom.x += 0.1
 #			$ColorPicker.rect_scale.x += 0.1
 #			$ColorPicker.rect_global_position.x -= 16.8
+
+
+
+
+
+
 
 
 

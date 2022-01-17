@@ -73,6 +73,8 @@ func _ready() -> void:
 				elif color_to_fill != null and all_pixels[pixels.find(curr_pixel.global_position + directions[0])].modulate == color_to_fill and pixels.has(curr_pixel.global_position + directions[0]):
 					var p = all_pixels[pixels.find(curr_pixel.global_position + directions[0])]
 					p.modulate = modulate
+					p.depth = depth
+					p.depth_symmetry = depth_symmetry
 					queue.append(p)
 					pixels.append(curr_pixel.global_position + directions[0])
 					all_pixels.append(p)
@@ -86,6 +88,8 @@ func _ready() -> void:
 				elif color_to_fill != null and all_pixels[pixels.find(curr_pixel.global_position + directions[1])].modulate == color_to_fill and pixels.has(curr_pixel.global_position + directions[1]):
 					var p = all_pixels[pixels.find(curr_pixel.global_position + directions[1])]
 					p.modulate = modulate
+					p.depth = depth
+					p.depth_symmetry = depth_symmetry
 					queue.append(p)
 					pixels.append(curr_pixel.global_position + directions[1])
 					all_pixels.append(p)
@@ -105,6 +109,8 @@ func _ready() -> void:
 				elif pixels.has(curr_pixel.global_position + directions[2]) and all_pixels[pixels.find(curr_pixel.global_position + directions[2])].modulate == color_to_fill:
 					var p = all_pixels[pixels.find(curr_pixel.global_position + directions[2])]
 					p.modulate = modulate
+					p.depth = depth
+					p.depth_symmetry = depth_symmetry
 					queue.append(p)
 					pixels.append(curr_pixel.global_position + directions[2])
 					all_pixels.append(p)
@@ -118,6 +124,8 @@ func _ready() -> void:
 				elif pixels.has(curr_pixel.global_position + directions[3]) and all_pixels[pixels.find(curr_pixel.global_position + directions[3])].modulate == color_to_fill:
 					var p = all_pixels[pixels.find(curr_pixel.global_position + directions[3])]
 					p.modulate = modulate
+					p.depth = depth
+					p.depth_symmetry = depth_symmetry
 					queue.append(p)
 					pixels.append(curr_pixel.global_position + directions[3])
 					all_pixels.append(p)
@@ -142,6 +150,8 @@ func add_pixel(pos: Vector2, _color: Color) -> Node2D:
 	var pixel: Sprite = load("res://Pixel.tscn").instance()
 	pixel.global_position = pos
 	pixel.modulate = _color
+	pixel.depth = depth
+	pixel.depth_symmetry = depth_symmetry
 # warning-ignore:return_value_discarded
 	get_parent().get_parent().connect("depth", pixel, "depth")
 # warning-ignore:return_value_discarded

@@ -5,24 +5,32 @@ var current_sort: String = "Name"
 var index_selected: int = -1
 var _files: Array = []
 var path_extension: String = ".pt3d"
+var parent: Control
 var path: String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
 #var path: String = OS.get_system_dir(OS.SYSTEM_DIR_DCIM) + "/" + "Camera"
 
 func _ready() -> void:
 
-	if Global.drawing_board.y - 10 != 0:
-# warning-ignore:narrowing_conversion
-		var extra_y: int = Global.drawing_board.y-10
-		for y in extra_y:
-			rect_scale.y += 0.1
-			rect_position.y -= 14.35
+	var zoom: int = parent.get_parent().get_node("Camera2D").zoom.x
+	for z in zoom:
+		rect_scale.y += 0.1
+		rect_position.y -= 14.35
+		rect_scale.x += 0.1
+		rect_position.x -= 22.3
 
-	if Global.drawing_board.x - 10 != 0:
-# warning-ignore:narrowing_conversion
-		var extra_x: int = Global.drawing_board.x-10
-		for x in extra_x:
-			rect_scale.x += 0.1
-			rect_position.x -= 22.3
+#	if Global.drawing_board.y - 10 != 0:
+## warning-ignore:narrowing_conversion
+#		var extra_y: int = Global.drawing_board.y-10
+#		for y in extra_y:
+#			rect_scale.y += 0.1
+#			rect_position.y -= 14.35
+#
+#	if Global.drawing_board.x - 10 != 0:
+## warning-ignore:narrowing_conversion
+#		var extra_x: int = Global.drawing_board.x-10
+#		for x in extra_x:
+#			rect_scale.x += 0.1
+#			rect_position.x -= 22.3
 
 	var files: Array = []
 	files = get_files(path)
@@ -120,7 +128,7 @@ func _on_Create_file_pressed() -> void:
 		}
 
 	# warning-ignore:return_value_discarded
-		file.open_encrypted_with_pass(path + "/" + $File_name.text + path_extension, File.WRITE, get_parent().password)
+		file.open_encrypted_with_pass(path + "/" + $File_name.text + path_extension, File.WRITE, parent.password)
 		Global.file_name = $File_name.text
 		file.store_line(to_json(data))
 		file.close()
@@ -166,7 +174,7 @@ func _on_Overwrite_pressed() -> void:
 	}
 
 # warning-ignore:return_value_discarded
-	file.open_encrypted_with_pass(path + "/" + $File_name.text + path_extension, File.WRITE, get_parent().password)
+	file.open_encrypted_with_pass(path + "/" + $File_name.text + path_extension, File.WRITE, parent.password)
 	file.store_line(to_json(data))
 	file.close()
 

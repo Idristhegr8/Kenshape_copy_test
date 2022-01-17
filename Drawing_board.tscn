@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Drawing_board.gd" type="Script" id=1]
 [ext_resource path="res://White_bg.png" type="Texture" id=2]
@@ -25,6 +25,16 @@ modulate_color = Color( 0.243137, 0.235294, 0.27451, 1 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 7
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 7
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 32
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
 [node name="Drawing_board" type="Node2D"]
@@ -94,10 +104,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -152.0
-margin_top = -215.0
-margin_right = 184.0
-margin_bottom = 247.0
+margin_left = -148.0
+margin_top = -211.0
+margin_right = 188.0
+margin_bottom = 251.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -105,6 +116,7 @@ __meta__ = {
 [node name="Error" type="AcceptDialog" parent="UI"]
 margin_right = 83.0
 margin_bottom = 58.0
+mouse_filter = 2
 window_title = "Error!"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -224,6 +236,24 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Tools"]
+margin_left = 469.0
+margin_right = 531.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 62, 64 )
+custom_fonts/font = SubResource( 5 )
+align = 1
+max_length = 1
+placeholder_text = "depth paint"
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/Tools"]
+margin_left = 535.0
+margin_right = 597.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 62, 64 )
+custom_fonts/font = SubResource( 6 )
+text = "S"
+
 [connection signal="color_changed" from="UI/ColorPicker" to="UI" method="_on_ColorPicker_color_changed"]
 [connection signal="mouse_entered" from="CanvasLayer/BG" to="UI" method="_on_Button_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasLayer/BG" to="UI" method="_on_Button_mouse_exited"]
@@ -248,3 +278,9 @@ __meta__ = {
 [connection signal="mouse_entered" from="CanvasLayer/Tools/3D" to="UI" method="_on_Button_mouse_entered"]
 [connection signal="mouse_exited" from="CanvasLayer/Tools/3D" to="UI" method="_on_Button_mouse_exited"]
 [connection signal="pressed" from="CanvasLayer/Tools/3D" to="UI" method="_on_3D_pressed"]
+[connection signal="mouse_entered" from="CanvasLayer/Tools/LineEdit" to="UI" method="_on_Button_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/Tools/LineEdit" to="UI" method="_on_Button_mouse_exited"]
+[connection signal="text_changed" from="CanvasLayer/Tools/LineEdit" to="UI" method="_on_LineEdit_text_changed"]
+[connection signal="mouse_entered" from="CanvasLayer/Tools/CheckBox" to="UI" method="_on_Button_mouse_entered"]
+[connection signal="mouse_exited" from="CanvasLayer/Tools/CheckBox" to="UI" method="_on_Button_mouse_exited"]
+[connection signal="toggled" from="CanvasLayer/Tools/CheckBox" to="UI" method="_on_CheckBox_toggled"]

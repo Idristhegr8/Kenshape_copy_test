@@ -1,5 +1,8 @@
 extends Node2D
 
+var depth: int = 1
+var symmetry: bool = false
+
 var undo_history: Array = []
 var redo_history: Array = []
 var temp_arr: Array = []
@@ -69,6 +72,7 @@ func _ready() -> void:
 
 # warning-ignore:unused_argument
 func _process(delta: float) -> void:
+
 	var mouse_pos: Vector2 = get_global_mouse_position()
 	$Pixel.global_position = mouse_pos.snapped(Vector2(64, 64))
 	grid_pos = mouse_pos.snapped(Vector2(64, 64))
@@ -187,6 +191,8 @@ func add_p() -> void:
 		var node: Sprite = load("res://Pixel.tscn").instance()
 		node.global_position = grid_pos
 		node.modulate = $UI._Color
+		node.depth = depth
+		node.depth_symmetry = symmetry
 # warning-ignore:return_value_discarded
 		connect("depth", node, "depth")
 # warning-ignore:return_value_discarded
@@ -354,11 +360,16 @@ func bucket_tool() -> void:
 	node.modulate = $UI._Color
 	node.color_to_fill = color_to_fill
 	node.start_point = true
+	node.depth = depth
+	node.depth_symmetry = symmetry
 # warning-ignore:return_value_discarded
 	connect("depth", node, "depth")
 # warning-ignore:return_value_discarded
 	connect("depth_symmetry", node, "depth_symmetry")
 	$Pixels.add_child(node)
+
+
+
 
 
 

@@ -9,21 +9,27 @@ var parent: Control
 
 func _ready() -> void:
 
-	if Global.drawing_board.y - 10 != 0:
-# warning-ignore:narrowing_conversion
-		var extra_y: int = Global.drawing_board.y-10
-		for y in extra_y:
-			rect_scale.y += 0.1
-			rect_position.y -= 14.35
+	var zoom: int = parent.get_parent().get_node("Camera2D").zoom.x
+	for z in zoom:
+		rect_scale.y += 0.1
+		rect_position.y -= 14.35
+		rect_scale.x += 0.1
+		rect_position.x -= 22.3
 
-	if Global.drawing_board.x - 10 != 0:
-# warning-ignore:narrowing_conversion
-		var extra_x: int = Global.drawing_board.x-10
-		for x in extra_x:
-			rect_scale.x += 0.1
-			rect_position.x -= 22.3
+#	if Global.drawing_board.y - 10 != 0:
+## warning-ignore:narrowing_conversion
+#		var extra_y: int = Global.drawing_board.y-10
+#		for y in extra_y:
+#			rect_scale.y += 0.1
+#			rect_position.y -= 14.35
+#
+#	if Global.drawing_board.x - 10 != 0:
+## warning-ignore:narrowing_conversion
+#		var extra_x: int = Global.drawing_board.x-10
+#		for x in extra_x:
+#			rect_scale.x += 0.1
+#			rect_position.x -= 22.3
 
-	parent = get_parent()
 	var files: Array = []
 	files = get_files(path)
 #	files.sort()
