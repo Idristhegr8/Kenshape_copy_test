@@ -61,14 +61,14 @@ func _ready() -> void:
 	if Global.drawing_board.x > 10:
 		$BG.rect_size = Global.drawing_board
 
-	$Camera2D.limit_bottom = Global.drawing_board.y*64+32
-	$Camera2D.limit_right = Global.drawing_board.x*64+32
+	$Camera2D.limit_bottom = Global.drawing_board.y*64+32+256
+	$Camera2D.limit_right = Global.drawing_board.x*64+32+256
 	if Global.drawing_board.x > Global.drawing_board.y:
-		$Camera2D.zoom = Vector2(Global.drawing_board.y/10, Global.drawing_board.y/10)
-		max_zoom = Vector2(Global.drawing_board.y/10, Global.drawing_board.y/10)
+		$Camera2D.zoom = Vector2(Global.drawing_board.y/10, Global.drawing_board.y/10)+Vector2(0.7, 0.7)
+		max_zoom = Vector2(Global.drawing_board.y/10, Global.drawing_board.y/10)+Vector2(0.7, 0.7)
 	else:
-		max_zoom = Vector2(Global.drawing_board.x/10, Global.drawing_board.x/10)
-		$Camera2D.zoom = Vector2(Global.drawing_board.x/10, Global.drawing_board.x/10)
+		max_zoom = Vector2(Global.drawing_board.x/10, Global.drawing_board.x/10)+Vector2(0.7, 0.7)
+		$Camera2D.zoom = Vector2(Global.drawing_board.x/10, Global.drawing_board.x/10)+Vector2(0.7, 0.7)
 
 # warning-ignore:unused_argument
 func _process(delta: float) -> void:

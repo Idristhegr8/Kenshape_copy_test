@@ -237,6 +237,19 @@ margin_bottom = 20.0
 custom_fonts/font = SubResource( 3 )
 text = "Overwrite"
 
+[node name="FolderExists" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -64.0
+margin_right = 128.0
+margin_bottom = 64.0
+dialog_text = "
+
+            A Folder Already Exists!"
+
 [connection signal="pressed" from="Sort_bg/Name" to="." method="_on_Name_pressed"]
 [connection signal="pressed" from="Sort_bg/Date" to="." method="_on_Date_pressed"]
 [connection signal="item_selected" from="FilesAndFolders" to="." method="_on_FilesAndFolders_item_selected"]

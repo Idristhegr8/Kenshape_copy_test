@@ -80,8 +80,8 @@ script = ExtResource( 7 )
 position = Vector2( 32, 32 )
 anchor_mode = 0
 current = true
-limit_left = 32
-limit_top = 32
+limit_left = -128
+limit_top = -128
 limit_smoothed = true
 
 [node name="UI" type="Control" parent="."]
@@ -104,10 +104,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -148.0
-margin_top = -211.0
-margin_right = 188.0
-margin_bottom = 251.0
+margin_left = -144.0
+margin_top = -207.0
+margin_right = 192.0
+margin_bottom = 255.0
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false

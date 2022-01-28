@@ -11,13 +11,6 @@ var path: String = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
 
 func _ready() -> void:
 
-	var zoom: int = parent.get_parent().get_node("Camera2D").zoom.x
-	for z in zoom:
-		rect_scale.y += 0.1
-		rect_position.y -= 14.35
-		rect_scale.x += 0.1
-		rect_position.x -= 22.3
-
 #	if Global.drawing_board.y - 10 != 0:
 ## warning-ignore:narrowing_conversion
 #		var extra_y: int = Global.drawing_board.y-10
@@ -80,21 +73,26 @@ func _on_Cancel_Saving_pressed() -> void:
 
 func _on_Create_folder_pressed() -> void:
 
-	if $Folder.text != "":
-		var dir: Directory = Directory.new()
-# warning-ignore:return_value_discarded
-		dir.make_dir(path + "/" + $Folder.text)
+	var dir: Directory = Directory.new()
 
-		var files: Array = []
-		files = get_files(path)
-#		files.sort()
+	if not dir.dir_exists(path + "/" + $Folder.text):
+		if $Folder.text != "":
+	# warning-ignore:return_value_discarded
+			dir.make_dir(path + "/" + $Folder.text)
 
-		for file in files:
-			$FilesAndFolders.add_item(file)
-			if dir.dir_exists(path + "/" + file):
-				$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
-			else:
-				$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
+			var files: Array = []
+			files = get_files(path)
+	#		files.sort()
+
+			for file in files:
+				$FilesAndFolders.add_item(file)
+				if dir.dir_exists(path + "/" + file):
+					$FilesAndFolders.set_item_icon(files.find(file), load("res://Folder.png"))
+				else:
+					$FilesAndFolders.set_item_icon(files.find(file), load("res://File.png"))
+	else:
+		$FolderExists.dialog_text = "' " + $Folder.text + " '" + " Already Exists On Path " + "' " + path + " '" + " !"
+		$FolderExists.popup_centered(Vector2(256, 128))
 
 func _on_Create_file_pressed() -> void:
 
