@@ -71,6 +71,8 @@ func _on_P_pressed() -> void:
 
 func _on_E_pressed() -> void:
 	get_parent().state = get_parent().eraser
+	get_parent().get_node("Pixel").hide()
+	get_parent().get_node("Pixel_outline").show()
 
 func _on_B_pressed() -> void:
 	get_parent().state = get_parent().bucket
@@ -191,6 +193,9 @@ func Load(file_path: String) -> void:
 #			get_parent().get_node("Camera2D").zoom.x += 0.1
 #			$ColorPicker.rect_scale.x += 0.1
 #			$ColorPicker.rect_global_position.x -= 16.8
+
+
+
 
 
 

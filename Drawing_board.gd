@@ -1,5 +1,7 @@
 extends Node2D
 
+var is_moving: bool = false
+
 var depth: int = 1
 var symmetry: bool = false
 
@@ -131,10 +133,10 @@ func _process(delta: float) -> void:
 # warning-ignore:unused_argument
 func _input(event: InputEvent) -> void:
 
-	if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_draw and state == pencil:
+	if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_draw and state == pencil and not is_moving:
 		add_p()
 
-	elif Input.is_action_just_released("release") and state == pencil:
+	elif Input.is_action_just_released("release") and state == pencil and not is_moving:
 		yield(get_tree(), "idle_frame")
 
 		var pixel_grp: PixelGroups = PixelGroups.new()
@@ -147,7 +149,7 @@ func _input(event: InputEvent) -> void:
 			undo_history.append(pixel_grp)
 			temp_arr.clear()
 
-	if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_draw and state == eraser:
+	if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_draw and state == eraser and not is_moving:
 		for pixel in get_tree().get_nodes_in_group("Pixel"):
 			if grid_pos == pixel.global_position:
 				var pixel_dat: PixelData = PixelData.new()
@@ -162,7 +164,7 @@ func _input(event: InputEvent) -> void:
 			if Vector2(pixel_dat.x, pixel_dat.y) == grid_pos:
 				Global.pixels.erase(pixel_dat)
 
-	elif Input.is_action_just_released("release") and state == eraser:
+	elif Input.is_action_just_released("release") and state == eraser and not is_moving:
 		yield(get_tree(), "idle_frame")
 
 		var pixel_grp: PixelGroups = PixelGroups.new()
@@ -173,13 +175,13 @@ func _input(event: InputEvent) -> void:
 			undo_history.append(pixel_grp)
 			temp_arr.clear()
 
-	if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_draw and state == color_picker:
+	if Input.is_mouse_button_pressed(BUTTON_LEFT) and can_draw and state == color_picker and not is_moving:
 		for pixel in $Pixels.get_children():
 			if pixel.global_position == grid_pos:
 				$UI._Color = pixel.modulate
 				$Pixel.modulate = pixel.modulate
 
-	if Input.is_action_just_pressed("release") and can_draw and state == bucket:
+	if Input.is_action_just_pressed("release") and can_draw and state == bucket and not is_moving:
 		bucket_tool()
 
 func add_p() -> void:
@@ -389,3 +391,30 @@ func bucket_tool() -> void:
 
 
 
+
+
+func _on_Button_pressed() -> void:
+	if not is_moving:
+		is_moving = true
+	else:
+		is_moving = false
+
+func _on_Save_pressed() -> void:
+	if not get_tree().paused:
+		var save_dialogue = load("res://Save_image_dialogue.tscn").instance()
+	#			add_child(save_dialogue)
+		save_dialogue.parent = $UI
+		get_node("CanvasLayer").add_child(save_dialogue)
+		get_node("CanvasLayer").move_child(save_dialogue, 0)
+		is_saving = true
+		get_tree().paused = true
+		get_node("Pixel").hide()
+
+func _on_Load_pressed() -> void:
+	if not get_tree().paused:
+		var save_dialogue = load("res://Select_file_dialogue.tscn").instance()
+		save_dialogue.parent = $UI
+		get_node("CanvasLayer").add_child(save_dialogue)
+		get_node("CanvasLayer").move_child(save_dialogue, 0)
+		get_tree().paused = true
+		get_node("Pixel").hide()

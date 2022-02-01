@@ -1,0 +1,182 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://uipack_fixed/PNG/grey_arrowUpWhite.png" type="Texture" id=1]
+[ext_resource path="res://Select_file_dialogue.gd" type="Script" id=2]
+[ext_resource path="res://uipack_fixed/Font/kenvector_future_thin.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://uipack_fixed/PNG/grey_button07.png" type="Texture" id=4]
+[ext_resource path="res://uipack_fixed/PNG/grey_crossWhite.png" type="Texture" id=5]
+[ext_resource path="res://kenvector_future_thin.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://uipack_fixed/PNG/grey_button04.png" type="Texture" id=7]
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.172549, 0.164706, 0.196078, 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 12
+font_data = ExtResource( 6 )
+
+[sub_resource type="StyleBoxTexture" id=6]
+texture = ExtResource( 7 )
+region_rect = Rect2( 0, 0, 190, 45 )
+modulate_color = Color( 0.172549, 0.164706, 0.196078, 1 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 1 )
+region_rect = Rect2( 0, 0, 15, 10 )
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 4 )
+region_rect = Rect2( 0, 0, 49, 49 )
+modulate_color = Color( 0.180392, 0.180392, 0.180392, 1 )
+
+[node name="Select_file_dialogue" type="Control"]
+pause_mode = 2
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -223.0
+margin_top = -143.5
+margin_right = 223.0
+margin_bottom = 143.5
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sort_bg" type="Label" parent="."]
+anchor_right = 1.0
+margin_top = 28.0
+margin_bottom = 46.0
+custom_styles/normal = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name" type="Button" parent="Sort_bg"]
+margin_right = 223.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 218, 0 )
+custom_fonts/font = SubResource( 5 )
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+text = "Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Date" type="Button" parent="Sort_bg"]
+margin_left = 223.0
+margin_right = 446.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 218, 0 )
+custom_fonts/font = SubResource( 5 )
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+text = "Date"
+
+[node name="FilesAndFolders" type="ItemList" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -223.0
+margin_top = -97.5
+margin_right = 223.0
+margin_bottom = 119.5
+custom_fonts/font = SubResource( 2 )
+allow_reselect = true
+icon_scale = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Path" type="LineEdit" parent="."]
+anchor_right = 1.0
+margin_left = 27.0
+margin_bottom = 28.0
+custom_fonts/font = SubResource( 2 )
+editable = false
+selecting_enabled = false
+
+[node name="Select_bg" type="LineEdit" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -26.0
+margin_bottom = -2.0
+focus_mode = 0
+custom_fonts/font = SubResource( 2 )
+editable = false
+context_menu_enabled = false
+virtual_keyboard_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Select" type="Button" parent="Select_bg"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -38.0
+margin_top = -25.0
+margin_right = 38.0
+margin_bottom = -1.0
+custom_fonts/font = SubResource( 2 )
+text = "Select"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Up" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -23.0
+margin_top = 5.0
+margin_right = -9.0
+margin_bottom = 19.0
+rect_min_size = Vector2( 14, 14 )
+custom_styles/hover = SubResource( 1 )
+custom_styles/pressed = SubResource( 1 )
+custom_styles/normal = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cancel_Saving" type="Button" parent="."]
+margin_right = 28.0
+margin_bottom = 28.0
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/normal = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Cancel_Saving"]
+modulate = Color( 0.52549, 0.52549, 0.52549, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -6.0
+margin_top = -6.0
+margin_right = 6.0
+margin_bottom = 6.0
+texture = ExtResource( 5 )
+expand = true
+
+[connection signal="pressed" from="Sort_bg/Name" to="." method="_on_Name_pressed"]
+[connection signal="pressed" from="Sort_bg/Date" to="." method="_on_Date_pressed"]
+[connection signal="item_selected" from="FilesAndFolders" to="." method="_on_FilesAndFolders_item_selected"]
+[connection signal="pressed" from="Select_bg/Select" to="." method="_on_Select_pressed"]
+[connection signal="pressed" from="Up" to="." method="_on_Up_pressed"]
+[connection signal="pressed" from="Cancel_Saving" to="." method="_on_Cancel_Saving_pressed"]

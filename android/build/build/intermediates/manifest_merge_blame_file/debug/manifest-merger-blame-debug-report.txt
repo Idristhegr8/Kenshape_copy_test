@@ -1,0 +1,110 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="org.godotengine.kenshapecopytest"
+4    android:installLocation="auto"
+5    android:versionCode="1"
+6    android:versionName="1.0" > <!-- glEsVersion is modified by the exporter, changing this value here has no effect. -->
+7    <uses-sdk
+8        android:minSdkVersion="19"
+9        android:targetSdkVersion="30" />
+10
+11    <supports-screens
+11-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:12:5-16:40
+12        android:largeScreens="true"
+12-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:15:9-36
+13        android:normalScreens="true"
+13-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:14:9-37
+14        android:smallScreens="true"
+14-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:13:9-36
+15        android:xlargeScreens="true" />
+15-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:16:9-37
+16
+17    <uses-feature
+17-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/src/debug/AndroidManifest.xml:10:5-78
+18        android:glEsVersion="0x00030000"
+18-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/src/debug/AndroidManifest.xml:10:19-51
+19        android:required="true" />
+19-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/src/debug/AndroidManifest.xml:10:52-75
+20
+21    <instrumentation
+21-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/src/debug/AndroidManifest.xml:11:5-16:60
+22        android:name=".GodotInstrumentation"
+22-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/src/debug/AndroidManifest.xml:13:9-45
+23        android:icon="@mipmap/icon"
+23-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/src/debug/AndroidManifest.xml:14:9-36
+24        android:label="@string/godot_project_name_string"
+24-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/src/debug/AndroidManifest.xml:15:9-58
+25        android:targetPackage="org.godotengine.$genname" />
+25-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/src/debug/AndroidManifest.xml:16:9-57
+26
+27    <application
+27-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:31:5-81:19
+28        android:allowBackup="false"
+28-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:31:68-95
+29        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+29-->[androidx.core:core:1.2.0] /Users/saif/.gradle/caches/transforms-3/c5eaa7d939abb2d757f863a6b5340cdd/transformed/core-1.2.0/AndroidManifest.xml:24:18-86
+30        android:debuggable="true"
+31        android:hasFragileUserData="false"
+31-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:31:118-152
+32        android:icon="@mipmap/icon"
+32-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:31:238-265
+33        android:isGame="true"
+33-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:31:96-117
+34        android:label="@string/godot_project_name_string"
+34-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:31:18-67
+35        android:requestLegacyExternalStorage="false" >
+35-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:31:153-197
+36        <activity
+36-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:53:9-75:20
+37            android:name="com.godot.game.GodotApp"
+37-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:54:13-37
+38            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize|density|keyboard|navigation|screenLayout|uiMode"
+38-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:60:13-141
+39            android:excludeFromRecents="false"
+39-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:58:13-47
+40            android:label="@string/godot_project_name_string"
+40-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:55:13-62
+41            android:launchMode="singleTask"
+41-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:57:13-44
+42            android:resizeableActivity="false"
+42-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:61:13-47
+43            android:screenOrientation="landscape"
+43-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:59:13-50
+44            android:theme="@style/GodotAppSplashTheme" >
+44-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:56:13-55
+45            <intent-filter>
+45-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:67:13-74:29
+46                <action android:name="android.intent.action.MAIN" />
+46-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:68:17-69
+46-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:68:25-66
+47
+48                <category android:name="android.intent.category.LAUNCHER" />
+48-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:69:17-77
+48-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:69:27-74
+49
+50                <!--
+51                Enable access to OpenXR on Oculus mobile devices, no-op on other Android
+52                platforms.
+53                -->
+54                <category android:name="com.oculus.intent.category.VR" />
+54-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:73:17-74
+54-->/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/AndroidManifest.xml:73:27-71
+55            </intent-filter>
+56        </activity>
+57        <!-- Records the version of the Godot editor used for building -->
+58        <meta-data
+59            android:name="org.godotengine.editor.version"
+60            android:value="3.4.2.stable" /> <!-- Records the version of the Godot library -->
+61        <meta-data
+61-->[godot-lib.debug.aar] /Users/saif/.gradle/caches/transforms-3/7d496d812684c77fc04000caf95fd2e1/transformed/jetified-godot-lib.debug/AndroidManifest.xml:19:9-21:44
+62            android:name="org.godotengine.library.version"
+62-->[godot-lib.debug.aar] /Users/saif/.gradle/caches/transforms-3/7d496d812684c77fc04000caf95fd2e1/transformed/jetified-godot-lib.debug/AndroidManifest.xml:20:13-59
+63            android:value="3.4.2.stable" />
+63-->[godot-lib.debug.aar] /Users/saif/.gradle/caches/transforms-3/7d496d812684c77fc04000caf95fd2e1/transformed/jetified-godot-lib.debug/AndroidManifest.xml:21:13-41
+64
+65        <service android:name="org.godotengine.godot.GodotDownloaderService" />
+65-->[godot-lib.debug.aar] /Users/saif/.gradle/caches/transforms-3/7d496d812684c77fc04000caf95fd2e1/transformed/jetified-godot-lib.debug/AndroidManifest.xml:23:9-80
+65-->[godot-lib.debug.aar] /Users/saif/.gradle/caches/transforms-3/7d496d812684c77fc04000caf95fd2e1/transformed/jetified-godot-lib.debug/AndroidManifest.xml:23:18-77
+66    </application>
+67
+68</manifest>

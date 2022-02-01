@@ -1,0 +1,4 @@
+#Tue Feb 01 09:04:28 IST 2022
+base.0=/Users/saif/PycharmProjects/Idris/Godot 3.2/Kenshape_copy_test/android/build/build/intermediates/dex/debug/mergeDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
